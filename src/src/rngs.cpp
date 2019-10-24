@@ -117,7 +117,7 @@ static int  initialized   = 0;          /* test for stream initialization */
   if (x == 0)                                
     while (!ok) {
       printf("\nEnter a positive integer seed (9 digits or less) >> ");
-      scanf("%ld", &x);
+      (void) scanf("%ld", &x) == 1)
       ok = (0 < x) && (x < MODULUS);
       if (!ok)
         printf("\nInput out of range ... try again\n");
