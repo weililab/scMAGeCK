@@ -1,13 +1,17 @@
 scMAGeCK_RRA <-
 function(BARCODE,RDS,GENE,RRAPATH=NULL,LABEL=NULL,NEGCTRL=NULL,KEEPTMP=FALSE,PATHWAY=FALSE,SAVEPATH='./'){
   if(is.null(RRAPATH)){
-    RRAPATH = system.file("libs","RRA",package = "scMAGeCK")
+    RRAPATH = system.file("bin","RRA",package = "scMAGeCK")
   }
   print('Checking RRA...')
-  if(system(RRAPATH,ignore.stdout = TRUE, ignore.stderr = TRUE)!=0){
-    print(paste('Error: cannot find RRA in ',RRAPATH,'. Please specify the path of RRA (in MAGeCK)'))
-    quit()
+  if(!file.exists(RRAPATH)){
+    print('RRA is not does not exist! You can set RRAPATH=NULL if in Mac or Linux environment')
+    return(NULL)
   }
+  # if(system(RRAPATH,ignore.stdout = TRUE, ignore.stderr = TRUE)!=0){
+  #   print(paste('Error: cannot find RRA in ',RRAPATH,'. Please specify the path of RRA (in MAGeCK)'))
+  #   quit()
+  # }
   if(!is.null(LABEL)){
     data_label=LABEL}
   else{data_label='sample1'}

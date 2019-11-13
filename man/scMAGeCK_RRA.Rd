@@ -47,9 +47,11 @@ The save path of result. Default save path is the current working directory. If 
     ### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset
     RDS <- system.file("extdata","singles_dox_mki67_v3.RDS",package = "scMAGeCK")
     
-    target_gene <- "MKI67"
+    ### Set RRAPATH executable filepath. You can set RRAPATH=NULL if in Mac or Linux environment!
+    RRAPATH <- "./RRA"
     
-    rra_result <- scMAGeCK_RRA(BARCODE=BARCODE, RDS=RDS, GENE=target_gene,
+    target_gene <- "MKI67"
+    rra_result <- scMAGeCK_RRA(BARCODE=BARCODE, RDS=RDS, GENE=target_gene, RRAPATH=RRAPATH, 
              LABEL='dox_mki67', NEGCTRL=NULL, KEEPTMP=FALSE, PATHWAY=FALSE, SAVEPATH=NULL)
     head(rra_result)
 }

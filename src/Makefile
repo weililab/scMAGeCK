@@ -27,7 +27,7 @@ MAIN1_OBJS = $(MAIN1:.cpp=.o)
 MAIN2_OBJS = $(MAIN2:.c=.o)
 
 # define the executable file 
-MAIN1_APP = ../inst/libs/RRA
+MAIN1_APP = ../inst/bin/RRA
 # MAIN2_APP = ../bin/CrisprNorm
 
 #
