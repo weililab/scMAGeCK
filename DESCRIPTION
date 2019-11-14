@@ -1,7 +1,7 @@
 Package: scMAGeCK
 Type: Package
 Title: Identify genes associated with multiple expression phenotypes in single-cell CRISPR screening data
-Version: 0.99.9
+Version: 0.99.10
 Date: 2019-11-14
 Author: Wei Li, Xiaolong Cheng
 Maintainer: Xiaolong Cheng <xiaolongcheng1120@gmail.com>
