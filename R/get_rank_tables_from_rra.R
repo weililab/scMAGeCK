@@ -1,6 +1,6 @@
 
 
-get_rank_tables_from_rra<-function(rankexp,bc_dox_u,rrapath=NULL,pcutoff=0.3,tmpprefix=paste('sample_',runif(1,1,10000),sep=''),negctrlgenelist='NonTargetingControlGuideForHuman',more_rra='',negsel=T,possel=T,keeptmp=F){
+get_rank_tables_from_rra<-function(rankexp,bc_dox_u,rrapath=NULL,pcutoff=0.3,tmpprefix=paste('sample_',runif(1,1,10000),sep=''),negctrlgenelist='NonTargetingControlGuideForHuman',more_rra='',negsel=TRUE,possel=TRUE,keeptmp=FALSE){
   rankexp=rankexp[names(rankexp)%in%rownames(bc_dox_u) & !is.na(bc_dox_u[names(rankexp),'barcode'])]
   if(length(rankexp)<3){
     print('Error: cannot find enough cells.')
@@ -16,19 +16,19 @@ get_rank_tables_from_rra<-function(rankexp,bc_dox_u,rrapath=NULL,pcutoff=0.3,tmp
                         list=rep('list',length(texp_guide_ass)),value=rankexp,
                         prob=rep(1,length(texp_guide_ass)),chosen=rep(1,length(texp_guide_ass)))
   low_file=paste(tmpprefix,'_rra_low.txt',sep='')
-  write.table(rra_oframe,file=low_file,row.names = F,quote=F,sep='\t')
+  write.table(rra_oframe,file=low_file,row.names = FALSE,quote=FALSE,sep='\t')
   
   
   rra_oframe_h=rra_oframe
   rra_oframe_h[,'value']=-1*rra_oframe_h[,'value']
   rra_oframe_h=rra_oframe_h[order(rra_oframe_h[,'value']),]
   high_file=paste(tmpprefix,'_rra_high.txt',sep='')
-  write.table(rra_oframe_h,file=high_file,row.names = F,quote=F,sep='\t')
+  write.table(rra_oframe_h,file=high_file,row.names = FALSE,quote=FALSE,sep='\t')
   ngguidefile=paste(tmpprefix,'_negctrl.txt',sep='')
   
   if(!is.null(negctrlgenelist)){
     ngguidelist=texp_guide_ass1[texp_gene_ass%in%negctrlgenelist]
-    write.table(ngguidelist,file=ngguidefile,sep='\t',row.names = F,col.names = F,quote = F)
+    write.table(ngguidelist,file=ngguidefile,sep='\t',row.names = FALSE,col.names = FALSE,quote = FALSE)
     ngguidecommand=paste('--control',ngguidefile)
   }else{
     ngguidecommand=''
@@ -63,10 +63,10 @@ get_rank_tables_from_rra<-function(rankexp,bc_dox_u,rrapath=NULL,pcutoff=0.3,tmp
   
   # merge both
   if(negsel){
-    frame_l=read.table(rra_low_out,header = T,as.is = T,row.names = 1,na.strings = '')
+    frame_l=read.table(rra_low_out,header = TRUE,as.is = TRUE,row.names = 1,na.strings = '')
   }
   if(possel){
-    frame_h=read.table(rra_high_out,header = T,as.is = T,row.names = 1,na.strings = '')
+    frame_h=read.table(rra_high_out,header = TRUE,as.is = TRUE,row.names = 1,na.strings = '')
   }
   
   if(negsel & !possel){

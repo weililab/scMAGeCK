@@ -64,5 +64,6 @@ function(BARCODE,RDS,NEGCTRL,SELECT_GENE=NULL,LABEL=NULL,PERMUTATION=NULL,SAVEPA
     write.table(data.frame(Perturbedgene=rownames(Amat),Amat),file=file.path(SAVEPATH,paste(data_label,'_score.txt', sep='')),sep='\t',quote=FALSE,row.names=FALSE)
     write.table(data.frame(Perturbedgene=rownames(Amat),Amat_pval),file=file.path(SAVEPATH,paste(data_label,'_score_pval.txt', sep='')),sep='\t',quote=FALSE,row.names=FALSE)
   }
+  
   return(list(data.frame(Perturbedgene=rownames(Amat),Amat), data.frame(Perturbedgene=rownames(Amat),Amat_pval)))
 }
