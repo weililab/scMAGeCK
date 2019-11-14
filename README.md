@@ -18,9 +18,17 @@ scMAGeCK is based on our previous [MAGeCK](http://mageck.sourceforge.net) and MA
     ### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset
     RDS <- system.file("extdata","singles_dox_mki67_v3.RDS",package = "scMAGeCK")
     
+    ### Set RRA executable file path. 
+    ### You can generate RRA executable file by following commands:
+    ###     wget https://bitbucket.org/weililab/scmageck/downloads/RRA_0.5.9.zip
+    ###     unzip RRA_0.5.9.zip
+    ###     cd RRA_0.5.9
+    ###     make
+    RRAPATH <- "RRA_0.5.9/bin/RRA"
+   
     target_gene <- "MKI67"
     
-    rra_result <- scMAGeCK_RRA(BARCODE=BARCODE, RDS=RDS, GENE=target_gene,
+    rra_result <- scMAGeCK_RRA(BARCODE=BARCODE, RDS=RDS, GENE=target_gene, RRAPATH=RRAPATH, 
              LABEL='dox_mki67', NEGCTRL=NULL, KEEPTMP=FALSE, PATHWAY=FALSE, SAVEPATH=NULL)
     
 ```
