@@ -35,8 +35,13 @@ Maintainer: \packageMaintainer{scMAGeCK}
     ### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset
     RDS <- system.file("extdata","singles_dox_mki67_v3.RDS",package = "scMAGeCK")
     
-    ### Set RRAPATH executable filepath. You can set RRAPATH=NULL if in Mac or Linux environment!
-    RRAPATH <- "./RRA"
+    ### Set RRA executable file path. 
+    ###    You can generate RRA executable file by following commands:
+    ###        wget https://bitbucket.org/weililab/scmageck/downloads/RRA_0.5.9.zip
+    ###        unzip RRA_0.5.9.zip
+    ###        cd RRA_0.5.9
+    ###        make
+    RRAPATH <- "RRA_0.5.9/bin/RRA"
     
     target_gene <- "MKI67"
     
