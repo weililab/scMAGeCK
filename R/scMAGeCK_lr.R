@@ -10,8 +10,7 @@ function(BARCODE,RDS,NEGCTRL,SELECT_GENE=NULL,LABEL=NULL,PERMUTATION=NULL,SAVEPA
   
   # read cell assignment and libray file ####
   bc_dox=read.table(BARCODE,header=TRUE,as.is=TRUE)
-  bc_dox[,1]=sub('-\\d$','',bc_dox[,1])
-  
+ 
   if(sum(colnames(bc_dox)%in%c("cell","barcode","gene"))!=3){
     stop('cell, barcode, or gene column names not found in barcode file.')
   }
@@ -31,6 +30,19 @@ function(BARCODE,RDS,NEGCTRL,SELECT_GENE=NULL,LABEL=NULL,PERMUTATION=NULL,SAVEPA
   }else{
     targetobj=RDS
   }
+  # check if names are consistent 
+  nmatch=sum(bc_dox[,1]%in%colnames(x=targetobj))
+  if(nmatch==0){
+    print('Cell names in expression matrix and barcode file do not match. Try to remove possible trailing "-1"s...')
+    if(length(grep('-\\d$',bc_dox[,1]))>0){
+      bc_dox[,1]= sub('-\\d$','',bc_dox[,1])
+    }
+    nmatch=sum(bc_dox[,1]%in%colnames(x=targetobj))
+    if(nmatch==0){
+      stop('No cell names match in expression matrix and barcode file.')
+    }
+  }
+  #bc_dox[,1]=sub('-\\d$','',bc_dox[,1])
  
   # convert to ind_matrix ####
   ind_matrix<-frame2indmatrix(bc_dox,targetobj)

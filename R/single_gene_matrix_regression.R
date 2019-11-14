@@ -10,9 +10,9 @@ single_gene_matrix_regression<-function(targetobj,ngctrlgene=c('NonTargetingCont
   # note that all the ngctrlgene are merged into one column, "NegCtrl"
   # if indmatrix is provided, the Xmat will be constructed from indmatrix
   outlier_threshold=0.95
-  rawf=getscaledata(targetobj,scaled=FALSE)
+  rawf=getscaledata(targetobj,scaled=F)
   select_genes=rownames(rawf)[ which(rowSums(as.matrix(rawf)!=0)>=ncol(rawf)*high_gene_frac)]
-  if(is.null(selected_genes_list)==FALSE){
+  if(is.null(selected_genes_list)==F){
     select_genes=select_genes[select_genes%in%selected_genes_list]
     if(length(select_genes)==0){
       stop('No genes left for regression. Check your selected gene list.')
