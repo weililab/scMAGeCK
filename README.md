@@ -1,5 +1,4 @@
-# scMAGeCK
-[![DOI](https://zenodo.org/badge/217109402.svg)](https://zenodo.org/badge/latestdoi/217109402)
+# scMAGeCK [![DOI](https://zenodo.org/badge/217109402.svg)](https://zenodo.org/badge/latestdoi/217109402)
 
 ## Introduction
 
