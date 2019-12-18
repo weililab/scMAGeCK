@@ -21,7 +21,7 @@ scMAGeCK is based on our previous [MAGeCK](http://mageck.sourceforge.net) and MA
 
 ## Usage
 
-### scMAGeCK-RRA
+### scmageck_rra
 
 ```{r}
     library(scMAGeCK)
@@ -37,16 +37,16 @@ scMAGeCK is based on our previous [MAGeCK](http://mageck.sourceforge.net) and MA
     ###        unzip RRA_0.5.9.zip
     ###        cd RRA_0.5.9
     ###        make
-    RRAPATH <- "RRA_0.5.9/bin/RRA"
+    RRAPATH <- "/Library/RRA_0.5.9/bin/RRA"
     
     target_gene <- "MKI67"
     
-    rra_result <- scMAGeCK_RRA(BARCODE=BARCODE, RDS=RDS, GENE=target_gene, RRAPATH=RRAPATH, 
+    rra_result <- scmageck_rra(BARCODE=BARCODE, RDS=RDS, GENE=target_gene, RRAPATH=RRAPATH, 
              LABEL='dox_mki67', NEGCTRL=NULL, KEEPTMP=FALSE, PATHWAY=FALSE, SAVEPATH=NULL)
     
 ```
 
-### scMAGeCK-LR
+### scmageck_lr
 
 ```{r}
     library(scMAGeCK)
@@ -55,7 +55,7 @@ scMAGeCK is based on our previous [MAGeCK](http://mageck.sourceforge.net) and MA
     ### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset
     RDS <- system.file("extdata","singles_dox_mki67_v3.RDS",package = "scMAGeCK")
     
-    lr_result <- scMAGeCK_LR(BARCODE=BARCODE, RDS=RDS, LABEL='dox_scmageck_lr', 
+    lr_result <- scmageck_lr(BARCODE=BARCODE, RDS=RDS, LABEL='dox_scmageck_lr', 
             NEGCTRL = 'NonTargetingControlGuideForHuman', PERMUTATION = 1000, SAVEPATH=NULL, LAMBDA=0.01)
     lr_score <- lr_result[1]
     lr_score_pval <- lr_result[2]
@@ -64,9 +64,9 @@ scMAGeCK is based on our previous [MAGeCK](http://mageck.sourceforge.net) and MA
 
 ## Output
 
-### scMAGeCK-RRA
+### scmageck_rra
 
-scMAGeCK-RRA will output the ranking and p values of each perturbed genes, using the RRA program in MAGeCK. Users familiar with the MAGeCK program may find it similar with the [gene_summary](https://sourceforge.net/p/mageck/wiki/output/#gene_summary_txt) output in MAGeCK.
+The scmageck_rra function will output the ranking and p values of each perturbed genes, using the RRA program in MAGeCK. Users familiar with the MAGeCK program may find it similar with the [gene_summary](https://sourceforge.net/p/mageck/wiki/output/#gene_summary_txt) output in MAGeCK.
 
 Here is the example output of scMAGeCK-RRA:
 
@@ -90,14 +90,14 @@ Explanations of each column are below:
 |goodsgrna.high| The number of single-cells that passes the threshold and is considered in the RRA score calculation in positive selection|
 
 
-### scMAGeCK-LR
+### scmageck_lr
 
-scMAGeCK-LR will generate several files below:
+The scmageck_lr function will generate several files below:
 
 |File|Description|
 |----|----------|
-|_score.txt|The score (similar with log fold change) of each perturbed gene (rows) on each marker gene (columns)|
-|_score.pval.txt|The associated p values of each score|
+|lr_score|The score (similar with log fold change) of each perturbed gene (rows) on each marker gene (columns)|
+|lr_score.pval|The associated p values of each score|
 |LR.RData|An R object to store scores and p values|
 
 The format of score.txt and score.pval.txt is a simple table file with rows corresponding to perturbed genes and columns corresponding to marker genes. For example in the score.txt,
@@ -112,4 +112,3 @@ This row records the effects of perturbing APC gene on the expressions of APC, A
 Questions? Comments? Join the [MAGeCK Google group](https://groups.google.com/forum/?hl=en#!forum/mageck) or email us (<wli2@childrensnational.org>) directly.
 
 Any advice and suggestions will be greatly appreciated.
-
