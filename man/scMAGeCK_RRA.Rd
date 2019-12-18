@@ -47,3 +47,20 @@ The save path of result. Default save path is the current working directory.
 If you don't need save the result, set SAVEPATH as NULL.
 }
 }
+\examples{
+    ### BARCODE file contains cell identity information, generated from the cell identity collection step
+    BARCODE <- system.file("extdata","barcode_rec.txt",package = "scMAGeCK")
+    
+    ### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset
+    RDS <- system.file("extdata","singles_dox_mki67_v3.RDS",package = "scMAGeCK")
+    
+    target_gene <- "MKI67"
+    
+    rra_result <- scmageck_rra(BARCODE=BARCODE, RDS=RDS, GENE=target_gene,
+             LABEL='dox_mki67', NEGCTRL=NULL, KEEPTMP=FALSE, PATHWAY=FALSE, SAVEPATH=NULL)
+    head(rra_result)
+}
+\value{
+The result for object \code{RDS}
+}
+
