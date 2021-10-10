@@ -17,10 +17,12 @@ single_gene_matrix_regression <- function(targetobj, ngctrlgene = c("NonTargetin
             stop("No genes left for regression. Check your selected gene list.")
         }
     }
+    scalef = getscaledata(targetobj)
+    select_genes = select_genes [!is.na(select_genes)& select_genes %in% rownames(scalef)]
+
     message(paste("Selected genes:", length(select_genes)))
     # browser()
     
-    scalef = getscaledata(targetobj)
     
     if (is.null(indmatrix)) {
         select_cells = rownames(targetobj@meta.data)[which(!is.na(targetobj@meta.data$geneID))]
@@ -28,6 +30,8 @@ single_gene_matrix_regression <- function(targetobj, ngctrlgene = c("NonTargetin
         select_cells = rownames(indmatrix)
         select_cells = select_cells[select_cells %in% colnames(scalef)]
     }
+    select_cells = select_cells[!is.na(select_cells) & select_cells %in% colnames(scalef)]
+    message(paste("Selected cells:", length(select_cells)))
     YmatT = scalef[select_genes, select_cells]
     
     Ymat = as.matrix(t(YmatT))  # (cells * expressed genes)

@@ -35,15 +35,10 @@ Maintainer: \packageMaintainer{scMAGeCK}
     ### the scRNA-seq dataset
     RDS <- system.file("extdata","singles_dox_mki67_v3.RDS",package = "scMAGeCK")
     
-    ### Set RRA executable file path. 
-    ###   You can generate RRA executable file by following commands:
-    ###   wget https://bitbucket.org/weililab/scmageck/downloads/RRA_0.5.9.zip
-    ###   unzip RRA_0.5.9.zip
-    ###   cd RRA_0.5.9
-    ###   make
-    RRAPATH <- "/Library/RRA_0.5.9/bin/RRA"
-    
     target_gene <- "MKI67"
+    
+    ### Set RRA executable file path or activate scmageck env if needed (see https://bitbucket.org/weililab/scmageck/src/master/)
+    RRAPATH <- NULL
     
     rra_result <- scmageck_rra(BARCODE=BARCODE, RDS=RDS, GENE=target_gene, 
                                RRAPATH=RRAPATH, LABEL='dox_mki67', 
