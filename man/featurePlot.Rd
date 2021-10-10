@@ -51,7 +51,7 @@ Text size of axis.text.
   \item{title.size}{
 Text size of axis/pics' title.
 }
-  \item{legend.size}{
+  \item{legend.text}{
 Text size of figure legend.
 }
   \item{fill}{
@@ -59,6 +59,10 @@ Fill colour.
 }
 }
 \examples{
+    
+    ### Loading required package
+    require(Seurat)
+    
     ### BARCODE file contains cell identity information, generated from the cell identity collection step
     BARCODE <- system.file("extdata","barcode_rec.txt",package = "scMAGeCK")
     

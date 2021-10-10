@@ -8,7 +8,7 @@ Integrate the imformation of sgRNA into RDS file for the further analysis.
 Pre-process the sgRNA count from previous step, and generate the sgRNA expression matrix.
 }
 \usage{
-pre_processRDS(RDS, BARCODE)
+pre_processRDS(BARCODE, RDS)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

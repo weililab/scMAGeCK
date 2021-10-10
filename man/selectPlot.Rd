@@ -39,6 +39,9 @@ RRA result from the scmageck-rra step.
 Optional input. The second RRA result from the scmageck-rra step. Add this input to visualize
 gene selection under two different cell condition.
 }
+  \item{TYPE}{
+	  The type of the scMAGeCK results. Can be either "rra" or "lr".
+}
   \item{QUALITY}{
 The number of single-cells that passes the threshold when use the RRA test, default is 10.
 Lower quality could improve the sensitivity but reduce accuracy.
@@ -46,8 +49,18 @@ Lower quality could improve the sensitivity but reduce accuracy.
 }
 \examples{
     ### by using RRA test, take MKI67 for example
-    selectPlot(RRA_re1 = rra_result, CUTOFF = 0.05, QUALITY = 10, ADJ = "fdr", TYPE = "rra")
+    ### only works if you have RRA installed
+    #selectPlot(RRA_re1 = rra_result, CUTOFF = 0.05, QUALITY = 10, ADJ = "fdr", TYPE = "rra")
     
     ### by using LR test, take MKI67 for example
+    
+    ### BARCODE file contains cell identity information, generated from the cell identity collection step
+    BARCODE <- system.file("extdata","barcode_rec.txt",package = "scMAGeCK")
+    
+    ### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset
+    RDS <- system.file("extdata","singles_dox_mki67_v3.RDS",package = "scMAGeCK")
+    
+    lr_result <- scmageck_lr(BARCODE=BARCODE, RDS=RDS, LABEL='dox_scmageck_lr', SIGNATURE = NULL,
+            NEGCTRL = 'NonTargetingControlGuideForHuman', PERMUTATION = 1000, SAVEPATH=NULL, LAMBDA=0.01)
     selectPlot(GENE = "MKI67", lr_result = lr_result, CUTOFF = 0.05, ADJ = "fdr", TYPE = "lr")
 }

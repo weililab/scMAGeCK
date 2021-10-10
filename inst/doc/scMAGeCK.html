@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Wei Li, Xiaolong Cheng" />
+
+
+<title>scMAGeCK</title>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">scMAGeCK</h1>
+<h4 class="author">Wei Li, Xiaolong Cheng</h4>
+<h4 class="date">Oct 22, 2019</h4>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>scMAGeCK is a computational model to identify genes associated with multiple expression phenotypes from CRISPR screening coupled with single-cell RNA sequencing data (CROP-seq).</p>
+<p>scMAGeCK is based on our previous <a href="http://mageck.sourceforge.net">MAGeCK</a> and MAGeCK-VISPR models for pooled CRISPR screens, but further extends to scRNA-seq as the readout of the screening experiment. scMAGeCK consists of two modules: scMAGeCK-Robust Rank Aggregation (RRA), a sensitive and precise algorithm to detect genes whose perturbation links to one single marker expression; and scMAGeCK-LR, a linear-regression based approach that unravels the perturbation effects on thousands of gene expressions, especially from cells undergo multiple perturbations.</p>
+</div>
+<div id="usage" class="section level2">
+<h2>Usage</h2>
+<div id="scmageck_rra" class="section level3">
+<h3>scmageck_rra</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">    <span class="kw">library</span>(scMAGeCK)</a>
+<a class="sourceLine" id="cb1-2" title="2">    <span class="co">### BARCODE file contains cell identity information, generated from the cell identity collection step</span></a>
+<a class="sourceLine" id="cb1-3" title="3">    BARCODE &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,<span class="st">&quot;barcode_rec.txt&quot;</span>,<span class="dt">package =</span> <span class="st">&quot;scMAGeCK&quot;</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4">    </a>
+<a class="sourceLine" id="cb1-5" title="5">    <span class="co">### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset</span></a>
+<a class="sourceLine" id="cb1-6" title="6">    RDS &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,<span class="st">&quot;singles_dox_mki67_v3.RDS&quot;</span>,<span class="dt">package =</span> <span class="st">&quot;scMAGeCK&quot;</span>)</a>
+<a class="sourceLine" id="cb1-7" title="7">    </a>
+<a class="sourceLine" id="cb1-8" title="8">    <span class="co">### Set RRA executable file path. </span></a>
+<a class="sourceLine" id="cb1-9" title="9">    <span class="co">###    You can generate RRA executable file by following commands:</span></a>
+<a class="sourceLine" id="cb1-10" title="10">    <span class="co">###        wget https://bitbucket.org/weililab/scmageck/downloads/RRA_0.5.9.zip</span></a>
+<a class="sourceLine" id="cb1-11" title="11">    <span class="co">###        unzip RRA_0.5.9.zip</span></a>
+<a class="sourceLine" id="cb1-12" title="12">    <span class="co">###        cd RRA_0.5.9</span></a>
+<a class="sourceLine" id="cb1-13" title="13">    <span class="co">###        make</span></a>
+<a class="sourceLine" id="cb1-14" title="14">    RRAPATH &lt;-<span class="st"> &quot;/Library/RRA_0.5.9/bin/RRA&quot;</span></a>
+<a class="sourceLine" id="cb1-15" title="15">    </a>
+<a class="sourceLine" id="cb1-16" title="16">    target_gene &lt;-<span class="st"> &quot;MKI67&quot;</span></a>
+<a class="sourceLine" id="cb1-17" title="17">    </a>
+<a class="sourceLine" id="cb1-18" title="18">    rra_result &lt;-<span class="st"> </span><span class="kw">scmageck_rra</span>(<span class="dt">BARCODE=</span>BARCODE, <span class="dt">RDS=</span>RDS, <span class="dt">GENE=</span>target_gene, <span class="dt">RRAPATH=</span>RRAPATH, </a>
+<a class="sourceLine" id="cb1-19" title="19">             <span class="dt">LABEL=</span><span class="st">&#39;dox_mki67&#39;</span>, <span class="dt">NEGCTRL=</span><span class="ot">NULL</span>, <span class="dt">KEEPTMP=</span><span class="ot">FALSE</span>, <span class="dt">PATHWAY=</span><span class="ot">FALSE</span>, <span class="dt">SAVEPATH=</span><span class="ot">NULL</span>)</a></code></pre></div>
+<pre><code>## Checking RRA...</code></pre>
+<pre><code>## RRA is not does not exist! Please check RRA executable file path</code></pre>
+</div>
+<div id="scmageck_lr" class="section level3">
+<h3>scmageck_lr</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">    <span class="kw">library</span>(scMAGeCK)</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="co">### BARCODE file contains cell identity information, generated from the cell identity collection step</span></a>
+<a class="sourceLine" id="cb4-3" title="3">    BARCODE &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,<span class="st">&quot;barcode_rec.txt&quot;</span>,<span class="dt">package =</span> <span class="st">&quot;scMAGeCK&quot;</span>)</a>
+<a class="sourceLine" id="cb4-4" title="4">    <span class="co">### RDS can be a Seurat object or local RDS file path that contains the scRNA-seq dataset</span></a>
+<a class="sourceLine" id="cb4-5" title="5">    RDS &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>,<span class="st">&quot;singles_dox_mki67_v3.RDS&quot;</span>,<span class="dt">package =</span> <span class="st">&quot;scMAGeCK&quot;</span>)</a>
+<a class="sourceLine" id="cb4-6" title="6">    </a>
+<a class="sourceLine" id="cb4-7" title="7">    lr_result &lt;-<span class="st"> </span><span class="kw">scmageck_lr</span>(<span class="dt">BARCODE=</span>BARCODE, <span class="dt">RDS=</span>RDS, <span class="dt">LABEL=</span><span class="st">&#39;dox_scmageck_lr&#39;</span>, </a>
+<a class="sourceLine" id="cb4-8" title="8">            <span class="dt">NEGCTRL =</span> <span class="st">&#39;NonTargetingControlGuideForHuman&#39;</span>, <span class="dt">PERMUTATION =</span> <span class="dv">1000</span>, <span class="dt">SAVEPATH=</span><span class="ot">NULL</span>, <span class="dt">LAMBDA=</span><span class="fl">0.01</span>)</a></code></pre></div>
+<pre><code>## Total barcode records: 8425</code></pre>
+<pre><code>## Neg Ctrl guide: NonTargetingControlGuideForHuman</code></pre>
+<pre><code>## Reading RDS file: /tmp/RtmpcLxAM6/Rinstff19d63eaeee7/scMAGeCK/extdata/singles_dox_mki67_v3.RDS</code></pre>
+<pre><code>## Cell names in expression matrix and barcode file do not match. Try to remove possible trailing &quot;-1&quot;s...</code></pre>
+<pre><code>## 6704 ...</code></pre>
+<pre><code>## 6229 ...</code></pre>
+<pre><code>## Index matrix dimension: 5698 , 30</code></pre>
+<pre><code>## Selected genes: 25</code></pre>
+<pre><code>## Permutation: 100 / 1000 ...</code></pre>
+<pre><code>## Permutation: 200 / 1000 ...</code></pre>
+<pre><code>## Permutation: 300 / 1000 ...</code></pre>
+<pre><code>## Permutation: 400 / 1000 ...</code></pre>
+<pre><code>## Permutation: 500 / 1000 ...</code></pre>
+<pre><code>## Permutation: 600 / 1000 ...</code></pre>
+<pre><code>## Permutation: 700 / 1000 ...</code></pre>
+<pre><code>## Permutation: 800 / 1000 ...</code></pre>
+<pre><code>## Permutation: 900 / 1000 ...</code></pre>
+<pre><code>## Permutation: 1000 / 1000 ...</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">    lr_score &lt;-<span class="st"> </span>lr_result[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb23-2" title="2">    lr_score_pval &lt;-<span class="st"> </span>lr_result[<span class="dv">2</span>]</a></code></pre></div>
+</div>
+</div>
+<div id="output" class="section level2">
+<h2>Output</h2>
+<div id="scmageck_rra-1" class="section level3">
+<h3>scmageck_rra</h3>
+<p>The scmageck_rra function will output the ranking and p values of each perturbed genes, using the RRA program in MAGeCK. Users familiar with the MAGeCK program may find it similar with the <a href="https://sourceforge.net/p/mageck/wiki/output/#gene_summary_txt">gene_summary</a> output in MAGeCK.</p>
+<p>Here is the example output of scMAGeCK-RRA:</p>
+<pre><code>Row.names  items_in_group.low  lo_value.low  p.low  FDR.low goodsgrna.low  items_in_group.high  lo_value.high  p.high  FDR.high  goodsgrna.high
+TP53    271     0.11832 0.95619 1       48      271     1.014e-83       4.9975e-06      0.00015 184</code></pre>
+<p>Explanations of each column are below:</p>
+<table>
+<colgroup>
+<col width="46%"></col>
+<col width="53%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Row.names</td>
+<td>Perturbed gene name</td>
+</tr>
+<tr class="even">
+<td>items_in_group.low</td>
+<td>The number of single-cells with each gene perturbed</td>
+</tr>
+<tr class="odd">
+<td>lo_value.low</td>
+<td>The RRA score in negative selection (reducing the marker expression if this gene is perturbed). The RRA score uses a p value from rank order statistics to measure the degree of selection; the smaller score, the stronger the selection is. More information on the calculation of RRA score can be found in our original <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0554-4">MAGeCK</a> paper.</td>
+</tr>
+<tr class="even">
+<td>p.low</td>
+<td>The raw p-value (using permutation) of this gene in negative selection</td>
+</tr>
+<tr class="odd">
+<td>FDR.low</td>
+<td>The false discovery rate of this gene in negative selection</td>
+</tr>
+<tr class="even">
+<td>goodsgrna.low</td>
+<td>The number of single-cells that passes the threshold and is considered in the RRA score calculation in negative selection</td>
+</tr>
+<tr class="odd">
+<td>items_in_group.high</td>
+<td>The same as items_in_group.low: the number of single-cells with each gene perturbed)</td>
+</tr>
+<tr class="even">
+<td>lo_value.high</td>
+<td>The RRA score in positive selection (increasing the marker expression if this gene is perturbed</td>
+</tr>
+<tr class="odd">
+<td>p.high</td>
+<td>The raw p-value (using permutation) of this gene in positive selection</td>
+</tr>
+<tr class="even">
+<td>FDR.high</td>
+<td>The false discovery rate of this gene in positive selection</td>
+</tr>
+<tr class="odd">
+<td>goodsgrna.high</td>
+<td>The number of single-cells that passes the threshold and is considered in the RRA score calculation in positive selection</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="scmageck_lr-1" class="section level3">
+<h3>scmageck_lr</h3>
+<p>The scmageck_lr function will generate several files below:</p>
+<table>
+<colgroup>
+<col width="28%"></col>
+<col width="71%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>lr_score</td>
+<td>The score (similar with log fold change) of each perturbed gene (rows) on each marker gene (columns)</td>
+</tr>
+<tr class="even">
+<td>lr_score.pval</td>
+<td>The associated p values of each score</td>
+</tr>
+<tr class="odd">
+<td>LR.RData</td>
+<td>An R object to store scores and p values</td>
+</tr>
+</tbody>
+</table>
+<p>The format of score.txt and score.pval.txt is a simple table file with rows corresponding to perturbed genes and columns corresponding to marker genes. For example in the score.txt,</p>
+<pre><code>Perturbedgene  APC                ARID1A               TP53               MKI67
+     APC       0.138075836476524  -0.0343441660045313  0.214449590551132  -0.150287676553705</code></pre>
+<p>This row records the effects of perturbing APC gene on the expressions of APC, ARID1A, TP53 and MKI67.</p>
+</div>
+</div>
+<div id="contact-us" class="section level2">
+<h2>Contact us</h2>
+<p>Questions? Comments? Join the <a href="https://groups.google.com/forum/?hl=en#!forum/mageck">MAGeCK Google group</a> or email us (<a href="mailto:wli2@childrensnational.org" class="email">wli2@childrensnational.org</a>) directly.</p>
+<p>Any advice and suggestions will be greatly appreciated.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
