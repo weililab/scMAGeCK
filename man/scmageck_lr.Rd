@@ -43,7 +43,10 @@ A paramter for the LR model for ridge regression. Default: 0.01.
 }
   \item{GENE_FRAC}{
 A paramter for filtering low expressed genes. By default, only genes 
-that have expressions in at least that fractions of cells are kept. Default: 0.01.
+that have expressions in at least that fractions of cells (in raw count table) are kept. 
+If raw count table is not found, will look into scaled expression, 
+and only keep genes whose expression is greater than zero in at least that fraction of cells.
+Default: 0.01.
 }
   \item{SIGNATURE}{
 A GMT text file, the format must be as follows:(1)Column 1: name of gene set; 

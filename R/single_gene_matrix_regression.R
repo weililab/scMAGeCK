@@ -10,16 +10,22 @@ single_gene_matrix_regression <- function(targetobj, ngctrlgene = c("NonTargetin
     # column, 'NegCtrl' if indmatrix is provided, the Xmat will be constructed from indmatrix
     outlier_threshold = 0.95
     rawf = getscaledata(targetobj, scaled = FALSE)
-    select_genes = rownames(rawf)[which(rowSums(as.matrix(rawf) != 0) >= ncol(rawf) * high_gene_frac)]
+    scalef = getscaledata(targetobj)
+    if(nrow(rawf)>0){
+        select_genes = rownames(rawf)[which(rowSums(as.matrix(rawf) != 0) >= ncol(rawf) * high_gene_frac)]
+        message(paste('Filter genes whose expression is greater than 0 in raw read count in less than',high_gene_frac,'single-cell populations.' ))
+    } else {
+        message(paste('Cannot find raw read count in Seurat object. Use scaled data instead, and filter genes whose expression is greater than 0 in less than',high_gene_frac,'single-cell populations.' ))
+        select_genes = rownames(scalef)[which(rowSums(as.matrix(scalef) >= 0) >= ncol(scalef) * high_gene_frac)]
+    }
     if (is.null(selected_genes_list) == FALSE) {
         select_genes = select_genes[select_genes %in% selected_genes_list]
-        if (length(select_genes) == 0) {
-            stop("No genes left for regression. Check your selected gene list.")
-        }
     }
-    scalef = getscaledata(targetobj)
     select_genes = select_genes [!is.na(select_genes)& select_genes %in% rownames(scalef)]
 
+    if (length(select_genes) == 0) {
+        stop("No genes left for regression. Check your selected gene list.")
+    }
     message(paste("Selected genes:", length(select_genes)))
     # browser()
     
