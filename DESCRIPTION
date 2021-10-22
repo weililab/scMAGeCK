@@ -1,8 +1,8 @@
 Package: scMAGeCK
 Type: Package
 Title: Identify genes associated with multiple expression phenotypes in single-cell CRISPR screening data
-Version: 0.99.15
-Date: 2020-01-29
+Version: 1.5.0
+Date: 2021-10-22
 Author: Wei Li, Xiaolong Cheng, Lin Yang
 Maintainer: Xiaolong Cheng <xiaolongcheng1120@gmail.com>
 Description: scMAGeCK is a computational model to identify genes associated with multiple expression phenotypes from CRISPR screening coupled with single-cell RNA sequencing data (CROP-seq)
