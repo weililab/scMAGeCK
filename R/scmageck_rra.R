@@ -1,5 +1,8 @@
 scmageck_rra <- function(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCTRL = NULL, SIGNATURE = NULL,
     KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./") {
+  message('Testing Rcpp:')
+  #z=rcpp_hello_world()
+  #message(str(z))
   if (is.null(RRAPATH)) {
     RRAPATH = system.file("bin", "RRA", package = "scMAGeCK")
   }
@@ -7,7 +10,7 @@ scmageck_rra <- function(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCT
   if (!file.exists(RRAPATH)) {
     if (system('RRA', ignore.stdout = TRUE, ignore.stderr = TRUE)!=0) {
       message("RRA does not exist! Please check RRA executable file path")
-      return(NULL)
+      #return(NULL)
     } else {
       RRAPATH=NULL # if RRA already exists
     }

@@ -9,4 +9,5 @@ export(featurePlot)
 export(selectPlot)
 import(Seurat)
 import(ggplot2)
-
+useDynLib(scMAGeCK, .registration=TRUE)
+importFrom(Rcpp, evalCpp)

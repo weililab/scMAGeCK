@@ -42,19 +42,27 @@ get_rank_tables_from_rra <- function(rankexp, bc_dox_u, rrapath = NULL, pcutoff 
     }
     
     rra_low_out = paste(tmpprefix, "_rra_low.out", sep = "")
-    rra_c = paste(rracommand, "-i", low_file, "-o", rra_low_out, ngguidecommand, "-p", pcutoff, "--max-sgrnapergene-permutation 10000 ", 
+    rra_c_vector = c(rracommand, "-i", low_file, "-o", rra_low_out, ngguidecommand, "-p", pcutoff, 
+		     "--max-sgrnapergene-permutation 10000 ", 
         more_rra)
+    rra_c = paste(rra_c_vector)
     if (negsel) {
-        message(rra_c)
-        system(rra_c, ignore.stdout = TRUE, ignore.stderr = TRUE)
+        #message(rra_c)
+        #system(rra_c, ignore.stdout = TRUE, ignore.stderr = TRUE)
+        call_rra(rra_c_vector)
+        #call_rra()
     }
     
     rra_high_out = paste(tmpprefix, "_rra_high.out", sep = "")
-    rra_c = paste(rracommand, "-i", high_file, "-o", rra_high_out, ngguidecommand, "-p", pcutoff, "--max-sgrnapergene-permutation 10000 ", 
+    rra_c_vector = c(rracommand, "-i", high_file, "-o", rra_high_out, ngguidecommand, "-p", pcutoff, 
+			 "--max-sgrnapergene-permutation 10000 ", 
         more_rra)
+    rra_c = paste(rra_c_vector)
     if (possel) {
-        message(rra_c)
-        system(rra_c, ignore.stdout = TRUE, ignore.stderr = TRUE)
+        #message(rra_c)
+        #system(rra_c, ignore.stdout = TRUE, ignore.stderr = TRUE)
+        call_rra(rra_c_vector)
+        #call_rra()
     }
     
     # merge both
