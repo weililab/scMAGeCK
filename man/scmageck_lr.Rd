@@ -15,11 +15,12 @@ PERMUTATION = NULL, SIGNATURE = NULL, SAVEPATH = "./",LAMBDA=0.01,GENE_FRAC=0.01
 \arguments{
   \item{BARCODE}{
 A txt file to include cell identity information, generated from the cell 
-identity collection step.
+identity collection step; or a corresponding data.frame.
 }
   \item{RDS}{
-A Seurat object or local RDS file path that contains the scRNA-seq dataset. 
-Note that the dataset has to be normalized and scaled.
+A Seurat object or local RDS file path that contains the scRNA-seq dataset; 
+or a path to RDS file.
+Note that the dataset has to be normalized and scaled. 
 }
   \item{NEGCTRL}{
 The name of the genes (separated by ",") served as negative controls.

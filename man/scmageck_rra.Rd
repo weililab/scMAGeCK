@@ -15,11 +15,12 @@ SIGNATURE = NULL, KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./")
 \arguments{
   \item{BARCODE}{
 A txt file to include cell identity information, generated from the cell 
-identity collection step.
+identity collection step; or a corresponding data.frame.
 }
   \item{RDS}{
-A Seurat object or local RDS file path that contains the scRNA-seq dataset. 
-Note that the dataset has to be normalized and scaled.
+A Seurat object or local RDS file path that contains the scRNA-seq dataset; 
+or a path to RDS file.
+Note that the dataset has to be normalized and scaled. 
 }
   \item{GENE}{
 Genes whose expressions are to be tested. Multiple genes can be provided, 
@@ -27,6 +28,7 @@ separated by ",". For example, "MKI67,TP53"
 }
   \item{RRAPATH}{
 The path to the RRA program, if RRA cannot be found in the PATH environment variable.
+Depreciated in 1.5.1.
 }
   \item{LABEL}{
 The label of the output file.

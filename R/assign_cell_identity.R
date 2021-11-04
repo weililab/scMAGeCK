@@ -1,4 +1,4 @@
-# Get the gene signature expression matrix from Ymat
+# assign cell identity from barcode files
 assign_cell_identity <- function(BARCODE, RDS, ASSIGNMETHOD='unique') {
 
   bc_dox = NULL
