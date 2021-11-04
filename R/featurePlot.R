@@ -71,6 +71,10 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
       target_gene_list = strsplit(GENE, ",")[[1]]
       target_gene_list = trimws(target_gene_list)
       mdata <- RDS@meta.data
+
+      if (sum(colnames(mdata)=='gene') == 0) {
+	  stop("Please assign single cells with gene identity in metadata first.")
+      }
       
       if (length(target_gene_list) == 1) {
         data <- FetchData(RDS, GENE)  #the values indicate log(TPM)
