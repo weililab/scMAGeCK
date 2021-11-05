@@ -1,7 +1,12 @@
-pre_processRDS <- function(BARCODE, RDS) {
+pre_processRDS <- function(BARCODE, RDS, normalize = TRUE, scale = TRUE) {
   
   # read cell assignment and libray file ####
-  bc_dox = read.table(BARCODE, header = TRUE, as.is = TRUE)
+  bc_dox = NULL
+  if (is.character(BARCODE)) {
+    bc_dox = read.table(BARCODE, header = TRUE, as.is = TRUE)
+  } else {
+    bc_dox = BARCODE
+  }
   if (sum(colnames(bc_dox) %in% c("cell", "barcode", "gene")) != 3) {
     stop("cell, barcode, or gene column names not found in barcode file.")
   }
@@ -79,6 +84,10 @@ pre_processRDS <- function(BARCODE, RDS) {
   bmatrix <- t(bmatrix)
   obj.sgrna <- as.sparse(bmatrix)
   targetobj[['sgRNA']] <- CreateAssayObject(counts = obj.sgrna)
-  targetobj <- NormalizeData(targetobj, assay = "sgRNA", normalization.method = "CLR")
-  targetobj <- ScaleData(targetobj, assay = "sgRNA")
+  if ( normalize ) {
+    targetobj <- NormalizeData(targetobj, assay = "sgRNA", normalization.method = "CLR")
+  }
+  if ( scale ) {
+    targetobj <- ScaleData(targetobj, assay = "sgRNA")
+  }
 }

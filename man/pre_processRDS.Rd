@@ -8,7 +8,7 @@ Integrate the imformation of sgRNA into RDS file for the further analysis.
 Pre-process the sgRNA count from previous step, and generate the sgRNA expression matrix.
 }
 \usage{
-pre_processRDS(BARCODE, RDS)
+pre_processRDS(BARCODE, RDS, normalize = TRUE, scale = TRUE) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +19,12 @@ identity collection step.
   \item{RDS}{
 A Seurat object or local RDS file path that contains the scRNA-seq dataset. 
 Note that the dataset has to be normalized and scaled.
+}
+  \item{normalize}{
+Whether to perform normalization on sgRNA count matrix 
+}
+  \item{scale}{
+Whether to scale the normalized sgRNA count matrix 
 }
 }
 \examples{
