@@ -150,7 +150,7 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
         target_sgrna_list = trimws(target_sgrna_list)
         target_sgrna_list <-  paste("sgrna_", target_sgrna_list, sep = "")
         grna <- FetchData(RDS, target_sgrna_list)
-        }
+      }
         grna$grna <- rowSums(grna)
         grna <- subset(grna, grna > 0)
         grna <- grna["grna"]

@@ -9,7 +9,7 @@ echo "Use RRA to test the association of gene knockout with certain marker expre
 }
 \usage{
 scmageck_rra(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCTRL = NULL, 
-SIGNATURE = NULL, KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./")
+SIGNATURE = NULL, KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./",ASSIGNMETHOD = "largest")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,6 +47,10 @@ expression of these genes will be used for testing.
   \item{SAVEPATH}{
 The save path of result. Default save path is the current working directory. 
 If you don't need save the result, set SAVEPATH as NULL.
+}
+  \item{ASSIGNMETHOD}{
+Method used to assign the sgRNA identity to each cell. Can be either unique or largest. 
+See assign_cell_identity for more details.
 }
   \item{SIGNATURE}{
 A GMT text file, the format must be as follows:(1)Column 1: name of gene set;

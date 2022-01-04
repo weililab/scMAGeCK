@@ -20,11 +20,24 @@ assign_cell_identity <- function(BARCODE, RDS, ASSIGNMETHOD='unique') {
 
     cell_ass=rep(NA,nrow(RDS@meta.data))
     names(cell_ass)=rownames(RDS@meta.data)
+    
+    sgrna_ass=cell_ass
+    num_ass=cell_ass
 
     cell_ass[as.character(bc_dox_uniq$cell)]=bc_dox_uniq$gene
     cell_ass[as.character(unique(bc_dox_dup$cell))]="doublet"
 
+
+    sgrna_ass[as.character(bc_dox_uniq$cell)]=bc_dox_uniq$barcode
+    sgrna_ass[as.character(unique(bc_dox_dup$cell))]="doublet"
+
+
+    num_ass[as.character(bc_dox_uniq$cell)]=bc_dox_uniq$umi_count
+    num_ass[as.character(unique(bc_dox_dup$cell))]=NA
+
     RDS<-AddMetaData(object = RDS,metadata = cell_ass,col.name = 'gene')
+    RDS<-AddMetaData(object = RDS,metadata = sgrna_ass,col.name = 'sgrna')
+    RDS<-AddMetaData(object = RDS,metadata = num_ass,col.name = 'umi_count')
   } else {
     if (ASSIGNMETHOD == "largest") {
       bc_dox=bc_dox[order(bc_dox[,'umi_count'],decreasing = T),] 
@@ -34,9 +47,16 @@ assign_cell_identity <- function(BARCODE, RDS, ASSIGNMETHOD='unique') {
       cell_ass=rep(NA,nrow(RDS@meta.data))
       names(cell_ass)=rownames(RDS@meta.data)
 
+      sgrna_ass=cell_ass
+      num_ass=cell_ass
+      
       cell_ass[as.character(bc_dox_nondup$cell)]=bc_dox_nondup$gene
+      sgrna_ass[as.character(bc_dox_nondup$cell)]=bc_dox_nondup$barcode
+      num_ass[as.character(bc_dox_nondup$cell)]=bc_dox_nondup$umi_count
 
       RDS<-AddMetaData(object = RDS,metadata = cell_ass,col.name = 'gene')
+      RDS<-AddMetaData(object = RDS,metadata = sgrna_ass,col.name = 'sgrna')
+      RDS<-AddMetaData(object = RDS,metadata = num_ass,col.name = 'umi_count')
     }
   }
   return(RDS)

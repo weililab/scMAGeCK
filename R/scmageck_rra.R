@@ -1,5 +1,5 @@
 scmageck_rra <- function(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCTRL = NULL, SIGNATURE = NULL,
-    KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./") {
+    KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./",ASSIGNMETHOD='unique') {
   message('Testing Rcpp:')
   #z=rcpp_hello_world()
   #message(str(z))
@@ -56,11 +56,22 @@ scmageck_rra <- function(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCT
   ncnt = table(table(bc_dox$cell))
   
   # only leave cells with unique guides ####
-  
-  dupsq = bc_dox[duplicated(bc_dox$cell), 1]
-  bc_dox_uq = bc_dox[!bc_dox[, 1] %in% dupsq, ]
-  rownames(bc_dox_uq) = bc_dox_uq[, 1]
-  
+   if (ASSIGNMETHOD == "unique") {
+	  
+    message("Only assign unique cells") 
+    dupsq = bc_dox[duplicated(bc_dox$cell), 1]
+    bc_dox_uq = bc_dox[!bc_dox[, 1] %in% dupsq, ]
+    rownames(bc_dox_uq) = bc_dox_uq[, 1]
+  }else {
+    if (ASSIGNMETHOD == "largest") {
+         bc_dox=bc_dox[order(bc_dox[,'umi_count'],decreasing = T),] 
+         bc_dox_uq=bc_dox[!duplicated(bc_dox$cell),]
+         rownames(bc_dox_uq) = bc_dox_uq[, 1]
+    }else{
+      stop('Assignment method should be either unique or largest')
+    }
+  }
+    
   message(paste("Total barcode records:", nrow(bc_dox)))
   message(paste("Unique barcode records:", nrow(bc_dox_uq)))
   
