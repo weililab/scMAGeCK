@@ -76,16 +76,7 @@ scmageck_lr <- function(BARCODE, RDS, NEGCTRL, SELECT_GENE = NULL, LABEL = NULL,
   # Optional function
   # Get the results based on gmt file
   if(!is.null(data_signature)){
-    x <- scan(data_signature, what = "", sep = "\n")
-    x <- strsplit(x, "\t") # split string by white space
-    max.col <- max(sapply(x, length))
-    cn <- paste("V", 1:max.col, sep = "")
-    gmt <- read.table(data_signature, fill = TRUE, col.names = cn)
-    # gmt <- read.delim(data_signature, header = FALSE)
-    gmt <- t(as.matrix(gmt))
-    colnames(gmt) <- gmt[1, ]
-    gmt <- gmt[-1:-2, ]
-    message(paste("Total signature records:", ncol(gmt)))
+    gmt <- read_gmt_file(data_signature)
     sig_mat <- getsigmat(Ymat, gmt_file = gmt)
     if (ncol(sig_mat) > 0) {
       Amat_sig_lst = getsolvedmatrix_with_permutation_cell_label(Xmat, sig_mat, lambda = LAMBDA, npermutation = n_permutation)

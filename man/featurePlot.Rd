@@ -32,7 +32,9 @@ Generate whole sgRNAs distribution when sgRNA = NULL, add sgRNAs to see the spec
 sgRNA distribution. Mutiple sgRNAs can be provided, separated by ",". For example, "APC,TP53".
 }
  \item{GENE}{
-Genes whose expressions are to be compared under different cell coditions. Mutiple genes can be provided, separated by ",". For example, "APC,TP53". 
+Genes whose expressions are to be compared under different cell coditions. 
+Mutiple genes can be provided, as a vector or as a string separated by ",". 
+For example, "APC,TP53". 
 when provide mutiple genes, it would show the average gene expression. 
 }
  \item{CONTROL}{

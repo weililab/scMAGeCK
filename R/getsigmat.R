@@ -5,6 +5,7 @@ getsigmat <- function(Ymat, gmt_file) {
   for (num in (1:ncol(gmt_file))) {
     genes <- as.character(gmt_file[, num])
     if (any(genes %in% colnames(Ymat))) {
+      genes <- genes[nchar(genes)>0] 
       genes <- genes[genes %in% colnames(Ymat)]
       Ymat_sig <- as.data.frame(Ymat[, genes])
       Ymat_sig$m <- rowMeans(Ymat_sig)

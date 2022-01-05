@@ -68,8 +68,12 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
         stop("sgRNA is missing")
       }
       
-      target_gene_list = strsplit(GENE, ",")[[1]]
-      target_gene_list = trimws(target_gene_list)
+     if (is.vector(GENE)) {
+       target_gene_list=GENE
+     }else{
+       target_gene_list = strsplit(GENE, ",")[[1]]
+       target_gene_list = trimws(target_gene_list)
+     }
       mdata <- RDS@meta.data
 
       if (sum(colnames(mdata)=='gene') == 0) {
@@ -82,8 +86,12 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
       } else {
         data <- FetchData(RDS, target_gene_list[1])
         for (i in target_gene_list[2:length(target_gene_list)]) {
-          data_1 <- FetchData(RDS, i)
-          data <- cbind(data, data_1)
+          if (i %in% rownames(RDS) ) {
+            data_1 <- FetchData(RDS, i)
+            data <- cbind(data, data_1)
+          }else{
+            message(paste('Warning:',i,'is missing in expression assays. Skip this gene.'))
+          }
         }
         data$genes <- rowMeans(data)
       }

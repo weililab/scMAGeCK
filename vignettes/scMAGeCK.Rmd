@@ -1,7 +1,7 @@
 ---
 title: "scMAGeCK"
-author: "Wei Li, Xiaolong Cheng"
-date: "Oct 22, 2019"
+author: "Wei Li, Xiaolong Cheng, Lin Yang"
+date: "Jan 6, 2022"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{scMAGeCK}
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Introduction
 
-scMAGeCK is a computational model to identify genes associated with multiple expression phenotypes from CRISPR screening coupled with single-cell RNA sequencing data (CROP-seq).
+scMAGeCK is a computational model to identify genes associated with multiple expression phenotypes from CRISPR screening coupled with single-cell RNA sequencing data (e.g., CROP-seq).
 
 scMAGeCK is based on our previous [MAGeCK](http://mageck.sourceforge.net) and MAGeCK-VISPR models for pooled CRISPR screens, but further extends to scRNA-seq as the readout of the screening experiment. scMAGeCK consists of two modules: scMAGeCK-Robust Rank Aggregation (RRA), a sensitive and precise algorithm to detect genes whose perturbation links to one single marker expression; and scMAGeCK-LR, a linear-regression based approach that unravels the perturbation effects on thousands of gene expressions, especially from cells undergo multiple perturbations.
 
