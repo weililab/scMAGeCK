@@ -41,6 +41,10 @@ when provide mutiple genes, it would show the average gene expression.
 Set up the sepecifc clusters to compare the gene expression. it would compare gene
 expression across the dataset when CONTROL = NULL.
 }
+ \item{GROUP2}{
+Set up the gene name as the control group. it would compare gene
+expression across the dataset when GROUP2= NULL.
+}
   \item{palette}{
 The color palette to change the color of VlnPlot.
 }
