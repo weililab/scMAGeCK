@@ -1,5 +1,5 @@
 scmageck_lr <- function(BARCODE, RDS, NEGCTRL, SELECT_GENE = NULL, LABEL = NULL, PERMUTATION = NULL,
-    SIGNATURE = NULL, SAVEPATH = "./", LAMBDA = 0.01, GENE_FRAC = 0.01) {
+    SIGNATURE = NULL, SAVEPATH = "./", LAMBDA = 0.01, GENE_FRAC = 0.01, SLOT = 'scale.data') {
   if (!is.null(LABEL)) {
     data_label = LABEL
   } else {
@@ -67,7 +67,7 @@ scmageck_lr <- function(BARCODE, RDS, NEGCTRL, SELECT_GENE = NULL, LABEL = NULL,
   
   # try to perform matrix regresson on single genes ####
   mat_for_single_reg = single_gene_matrix_regression(targetobj, selected_genes_list = SELECT_GENE, 
-      ngctrlgene = ngctrlgenelist, indmatrix = ind_matrix, high_gene_frac = GENE_FRAC)
+      ngctrlgene = ngctrlgenelist, indmatrix = ind_matrix, high_gene_frac = GENE_FRAC, slot = SLOT)
   Xmat = mat_for_single_reg[[1]]
   
   # Xmat[,which(colnames(Xmat)%in%ngctrlgenelist)[1]]=1 # already integrated into function

@@ -9,7 +9,7 @@ echo "Use RRA to test the association of gene knockout with certain marker expre
 }
 \usage{
 scmageck_rra(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCTRL = NULL, 
-SIGNATURE = NULL, KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./",ASSIGNMETHOD = "largest")
+SIGNATURE = NULL, KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./",ASSIGNMETHOD = "largest",SLOT='scale.data')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -60,6 +60,9 @@ Note that if you don't set the parameter "SAVEPATH", this parameter would create
 folder called "GENE_SET"" in the current working directory to store the results from 
 applying RRA program to do gene set analysis.
 Refercence:http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats
+}
+ \item{SLOT}{
+Use the slot in Seurat object for plot. May choose 'data', 'scale.data' or 'count'. See GetAssayData funciton in Seurat.
 }
 }
 \examples{

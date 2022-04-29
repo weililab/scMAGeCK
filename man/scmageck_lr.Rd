@@ -9,7 +9,7 @@ echo "Use linear regression to test the association of gene knockout with all po
 }
 \usage{
 scmageck_lr(BARCODE, RDS, NEGCTRL, SELECT_GENE=NULL, LABEL = NULL,  
-PERMUTATION = NULL, SIGNATURE = NULL, SAVEPATH = "./",LAMBDA=0.01,GENE_FRAC=0.01)
+PERMUTATION = NULL, SIGNATURE = NULL, SAVEPATH = "./",LAMBDA=0.01,GENE_FRAC=0.01,SLOT='scale.data')
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -55,6 +55,9 @@ A GMT text file, the format must be as follows:(1)Column 1: name of gene set;
 (3)Column 3 and onwards: ids of genes beloging to a particular gene set. 
 Note that this parameter for applying LR model for the gene set analysis.
 Refercence:http://software.broadinstitute.org/cancer/software/gsea/wiki/index.php/Data_formats
+}
+ \item{SLOT}{
+Use the slot in Seurat object for plot. May choose 'data', 'scale.data' or 'count'. See GetAssayData funciton in Seurat.
 }
 }
 \examples{

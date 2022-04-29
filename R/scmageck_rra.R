@@ -1,5 +1,5 @@
 scmageck_rra <- function(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCTRL = NULL, SIGNATURE = NULL,
-    KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./",ASSIGNMETHOD='unique') {
+    KEEPTMP = FALSE, PATHWAY = FALSE, SAVEPATH = "./",ASSIGNMETHOD='largest', SLOT = 'scale.data') {
   message('Testing Rcpp:')
   #z=rcpp_hello_world()
   #message(str(z))
@@ -97,11 +97,8 @@ scmageck_rra <- function(BARCODE, RDS, GENE, RRAPATH = NULL, LABEL = NULL, NEGCT
     }
   }
   # run RRA ####
-  if ("scale.data" %in% names(attributes(targetobj))) {
-      scalef = targetobj@scale.data # for version 2
-  } else {
-      scalef = GetAssayData(object = targetobj, slot = "scale.data")
-  }
+  #scalef = GetAssayData(object = targetobj, slot = "scale.data")
+  scalef=getscaledata(targetobj,slot=SLOT)
   
   # get the gene set from GMT file ####
   if (!is.null(SIGNATURE)) {

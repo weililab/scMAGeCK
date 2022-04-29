@@ -84,7 +84,7 @@ Explanations of each column are below:
 |FDR.low | The false discovery rate of this gene in negative selection |
 |goodsgrna.low | The number of single-cells that passes the threshold and is considered in the RRA score calculation in negative selection|
 |items_in_group.high| The same as items_in_group.low: the number of single-cells with each gene perturbed) |
-|lo_value.high| The RRA score in positive selection (increasing the marker expression if this gene is perturbed|      
+|lo_value.high| The RRA score in positive selection (increasing the marker expression if this gene is perturbed)|      
 |p.high| The raw p-value (using permutation) of this gene in positive selection  |  
 |FDR.high| The false discovery rate of this gene in positive selection |
 |goodsgrna.high| The number of single-cells that passes the threshold and is considered in the RRA score calculation in positive selection|

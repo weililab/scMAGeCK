@@ -131,7 +131,8 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
       eq <- paste0("p_value = ", signif(wil$p.value, digits = 3))
       
       #the base of violin plot
-      p <- ggplot(gene, aes(x = label, y = genes, fill = label)) + geom_violin() + geom_violin(trim=FALSE) +
+      p <- ggplot(gene, aes(x = label, y = genes, fill = label)) + geom_violin() + 
+        # geom_violin(trim=FALSE) +  ## trim the figure
         stat_summary(fun.y=mean, geom="point", size=1, color = "black") + labs(y = "Gene expression_lg(TPM)", subtitle = eq)
         
       if (!is.null(palette)) {

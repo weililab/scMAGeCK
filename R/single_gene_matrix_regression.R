@@ -5,12 +5,12 @@
 # expressed genes)
 
 single_gene_matrix_regression <- function(targetobj, ngctrlgene = c("NonTargetingControlGuideForHuman"), 
-    indmatrix = NULL, high_gene_frac = 0.01, selected_genes_list = NULL) {
+    indmatrix = NULL, high_gene_frac = 0.01, selected_genes_list = NULL, slot = 'scale.data') {
     # return X matrix and Y matrix for regression note that all the ngctrlgene are merged into one
     # column, 'NegCtrl' if indmatrix is provided, the Xmat will be constructed from indmatrix
     outlier_threshold = 0.95
-    rawf = getscaledata(targetobj, scaled = FALSE)
-    scalef = getscaledata(targetobj)
+    rawf = getscaledata(targetobj, slot = 'counts')
+    scalef = getscaledata(targetobj, slot = slot)
     if(nrow(rawf)>0){
         select_genes = rownames(rawf)[which(rowSums(as.matrix(rawf) != 0) >= ncol(rawf) * high_gene_frac)]
         message(paste('Filter genes whose expression is greater than 0 in raw read count in less than',high_gene_frac,'single-cell populations.' ))

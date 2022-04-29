@@ -11,6 +11,13 @@ assign_cell_identity <- function(BARCODE, RDS, ASSIGNMETHOD='unique') {
   if (sum(colnames(bc_dox) %in% c("cell", "barcode", "gene")) != 3) {
     stop("cell, barcode, or gene column names not found in barcode file.")
   }
+  # read Seurat RDS file ####
+  if (is.character(RDS)) {
+    message(paste("Reading RDS file:", RDS))
+    RDS= readRDS(RDS)
+  } else {
+    # targetobj = RDS
+  }
   
   if (ASSIGNMETHOD == "unique") {
 	  
