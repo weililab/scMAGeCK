@@ -10,18 +10,28 @@ single_gene_matrix_regression <- function(targetobj, ngctrlgene = c("NonTargetin
     # column, 'NegCtrl' if indmatrix is provided, the Xmat will be constructed from indmatrix
     outlier_threshold = 0.95
     rawf = getscaledata(targetobj, slot = 'counts')
-    scalef = getscaledata(targetobj, slot = slot)
+    scalef = getscaledata(targetobj, slot = slot) # may be scale data or data
+
+    select_genes = rownames(scalef)
+    select_genes = select_genes [!is.na(select_genes)]
+    if (is.null(selected_genes_list) == FALSE) {
+        select_genes = select_genes[select_genes %in% selected_genes_list]
+        if (length(select_genes) == 0) {
+            stop("No genes left after gene list provided. Check your selected gene list.")
+        }
+    }
+
     if(nrow(rawf)>0){
-        select_genes = rownames(rawf)[which(rowSums(as.matrix(rawf) != 0) >= ncol(rawf) * high_gene_frac)]
+        select_genes = select_genes [ select_genes %in% rownames(rawf) ]
+        rawf2 = as.matrix(rawf[select_genes,])
+        #browser()
+        select_genes = rownames(rawf2)[which(rowSums(rawf2 != 0) >= ncol(rawf2) * high_gene_frac)]
         message(paste('Filter genes whose expression is greater than 0 in raw read count in less than',high_gene_frac,'single-cell populations.' ))
     } else {
         message(paste('Cannot find raw read count in Seurat object. Use scaled data instead, and filter genes whose expression is greater than 0 in less than',high_gene_frac,'single-cell populations.' ))
-        select_genes = rownames(scalef)[which(rowSums(as.matrix(scalef) >= 0) >= ncol(scalef) * high_gene_frac)]
+        scalef2 = as.matrix(scalef [select_genes,])
+        select_genes = rownames(scalef2)[which(rowSums(scalef2 >= 0) >= ncol(scalef2) * high_gene_frac)]
     }
-    if (is.null(selected_genes_list) == FALSE) {
-        select_genes = select_genes[select_genes %in% selected_genes_list]
-    }
-    select_genes = select_genes [!is.na(select_genes)& select_genes %in% rownames(scalef)]
 
     if (length(select_genes) == 0) {
         stop("No genes left for regression. Check your selected gene list.")
@@ -38,9 +48,9 @@ single_gene_matrix_regression <- function(targetobj, ngctrlgene = c("NonTargetin
     }
     select_cells = select_cells[!is.na(select_cells) & select_cells %in% colnames(scalef)]
     message(paste("Selected cells:", length(select_cells)))
-    YmatT = scalef[select_genes, select_cells]
+    YmatT = as.matrix(scalef[select_genes, select_cells])
     
-    Ymat = as.matrix(t(YmatT))  # (cells * expressed genes)
+    Ymat = t(YmatT)  # (cells * expressed genes)
     if (is.null(indmatrix)) {
         tgf = targetobj@meta.data[select_cells, "geneID"]
         tgf[tgf %in% ngctrlgene] = "NegCtrl"
