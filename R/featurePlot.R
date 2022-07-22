@@ -1,6 +1,7 @@
 featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GENE = NULL, CONTROL = NULL, GROUP2=NULL, SLOT='data', 
     palette = NULL, label.size = 3, axis.size = 12, title.size = 15, legend.text = 10, fill = "#56B4E9")  {
   
+  p<-NULL
   if (TYPE == "Dis") {
     if (is.null(BARCODE)) {
       stop("Please provide the barcode file from previous step")
@@ -51,7 +52,7 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
     
     num <- nrow(output) - nrow(med)
     message(paste(num, "cells entered sgRNAs have been filtered out in RDS file"))
-    ggplot(output_1, aes(number_gRNA, ncell)) +
+    p <- ggplot(output_1, aes(number_gRNA, ncell)) +
       geom_col(width = 0.4, fill = fill, colour = "black") + 
       ggtitle("sgRNA distribution") + geom_text(aes(label = ncell), size = label.size, hjust = 0.5, vjust = .01) + 
       theme_bw() + theme(axis.text = element_text(size = axis.size)) + 
@@ -59,7 +60,7 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
     
   } else {
     
-    if (TYPE == "Vln") {
+    if (TYPE == "Vln" | TYPE == "ECDF") {
       
       if (is.null(GENE)) {
         stop("Target gene is missing")
@@ -129,24 +130,35 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
       #wilcoxon test > looking up median difference between two group
       wil <- wilcox.test(cell_ko$genes, other$genes, mu=0, alternative = "two.sided", paired = FALSE)
       eq <- paste0("p_value = ", signif(wil$p.value, digits = 3))
-      
       #the base of violin plot
-      p <- ggplot(gene, aes(x = label, y = genes, fill = label)) + geom_violin() + 
-        # geom_violin(trim=FALSE) +  ## trim the figure
-        stat_summary(fun.y=mean, geom="point", size=1, color = "black") + labs(y = "Gene expression_lg(TPM)", subtitle = eq)
-        
-      if (!is.null(palette)) {
-        p + scale_fill_brewer(palette = palette) + theme_classic() + ggtitle(paste(GENE, "gene expression")) + 
-          theme(axis.title.y = element_text(margin = margin(r = 10), size = title.size), axis.title.x=element_blank()) +
-          theme(axis.text = element_text(size = axis.size)) + theme(title = element_text(size = title.size)) + 
-          theme(legend.text = element_text(size = legend.text))
-        
-      } else {
-        p + theme_classic() + ggtitle(paste(GENE, "gene expression")) + 
-        theme(axis.title.y = element_text(margin = margin(r = 10), size = title.size), axis.title.x=element_blank()) +
-        theme(axis.text = element_text(size = axis.size)) + theme(title = element_text(size = title.size)) + 
-          theme(legend.text = element_text(size = legend.text))
+      if (TYPE == "Vln"){
+          p <- ggplot(gene, aes(x = label, y = genes, fill = label)) + geom_violin() + 
+            # geom_violin(trim=FALSE) +  ## trim the figure
+            stat_summary(fun.y=mean, geom="point", size=1, color = "black") + labs(y = "Gene expression_lg(TPM)", subtitle = eq)
+            
+          if (!is.null(palette)) {
+            p <- p + scale_fill_brewer(palette = palette) + theme_classic() + ggtitle(paste(GENE, "gene expression")) + 
+              theme(axis.title.y = element_text(margin = margin(r = 10), size = title.size), axis.title.x=element_blank()) +
+              theme(axis.text = element_text(size = axis.size)) + theme(title = element_text(size = title.size)) + 
+              theme(legend.text = element_text(size = legend.text))
+            
+          } else {
+            p <- p + theme_classic() + ggtitle(paste(GENE, "gene expression")) + 
+            theme(axis.title.y = element_text(margin = margin(r = 10), size = title.size), axis.title.x=element_blank()) +
+            theme(axis.text = element_text(size = axis.size)) + theme(title = element_text(size = title.size)) + 
+              theme(legend.text = element_text(size = legend.text))
+          }
       }
+      if (TYPE == "ECDF"){
+          p <- ggplot(gene, aes(genes, colour= label)) + stat_ecdf() + 
+                   theme_classic() + ggtitle(paste(GENE, "cumulative gene expression")) + 
+                   xlab(paste(GENE, ' expression')) + ylab('Fraction') + 
+            theme(axis.title.y = element_text(margin = margin(r = 10), size = title.size), axis.title.x=element_blank()) +
+            theme(axis.text = element_text(size = axis.size)) + theme(title = element_text(size = title.size)) + 
+              theme(legend.text = element_text(size = legend.text))
+
+      }
+      return (p)
   } else {
     if (TYPE == "Den") {
       
@@ -188,9 +200,11 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
           da$data <- data
           da + ggtitle("Density of sgRNAs")
         }
+        return (p)
     } else {
-      message("Please enter a correct type of plot: Dis, Vln, Den")
+      message("Please enter a correct type of plot: Dis, Vln, Den, ECDF")
     }
   }
   }
+  return (p)
 }
