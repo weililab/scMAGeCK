@@ -151,7 +151,7 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
       }
       if (TYPE == "ECDF"){
           p <- ggplot(gene, aes(genes, colour= label)) + stat_ecdf() + 
-                   theme_classic() + ggtitle(paste(GENE, "cumulative gene expression")) + 
+                   theme_classic() + ggtitle(paste(GENE, "cumulative gene expression"), subtitle=eq) + 
                    xlab(paste(GENE, ' expression')) + ylab('Fraction') + 
             theme(axis.title.y = element_text(margin = margin(r = 10), size = title.size), axis.title.x=element_blank()) +
             theme(axis.text = element_text(size = axis.size)) + theme(title = element_text(size = title.size)) + 
