@@ -85,15 +85,21 @@ featurePlot <- function(RDS, TYPE = plot.type, BARCODE = NULL, sgRNA = NULL, GEN
         data <- FetchData(RDS, GENE, slot = SLOT)  #the values indicate log(TPM)
         colnames(data)[1] <- paste("genes")
       } else {
-        data <- FetchData(RDS, target_gene_list[1], slot = SLOT)
-        for (i in target_gene_list[2:length(target_gene_list)]) {
-          if (i %in% rownames(RDS) ) {
-            data_1 <- FetchData(RDS, i, slot = SLOT)
-            data <- cbind(data, data_1)
-          }else{
-            message(paste('Warning:',i,'is missing in expression assays. Skip this gene.'))
-          }
+        #data <- FetchData(RDS, target_gene_list[1], slot = SLOT)
+        #for (i in target_gene_list[2:length(target_gene_list)]) {
+        #  if (i %in% rownames(RDS) ) {
+        #    data_1 <- FetchData(RDS, i, slot = SLOT)
+        #    data <- cbind(data, data_1)
+        #  }else{
+        #    message(paste('Warning:',i,'is missing in expression assays. Skip this gene.'))
+        #  }
+        #}
+        tgls <- target_gene_list [ target_gene_list %in% rownames(RDS)]
+        if (sum(!target_gene_list %in% rownames(RDS))>0){
+            message(paste('Warning: the following genes are missing in expression assays. Skip these genes.'))
+            message(paste(target_gene_list [ ! target_gene_list %in% rownames(RDS)], collapse=','))
         }
+        data <- FetchData(RDS, tgls, slot = SLOT)
         data$genes <- rowMeans(data)
       }
       
