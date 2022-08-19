@@ -60,6 +60,9 @@ Refercence:http://software.broadinstitute.org/cancer/software/gsea/wiki/index.ph
 Use the slot in Seurat object for plot. May choose 'data', 'scale.data' or 'count'. See GetAssayData funciton in Seurat.
 }
 }
+\value{
+Returns a list  of lr results, including beta score (as a data.frame), the associated p value (as a data.frame), and the regression matrix that is used for linear regression.
+}
 \examples{
     ### BARCODE file contains cell identity information, generated from the cell identity collection step
     BARCODE <- system.file("extdata","barcode_rec.txt",package = "scMAGeCK")
@@ -72,7 +75,4 @@ Use the slot in Seurat object for plot. May choose 'data', 'scale.data' or 'coun
     lr_score <- lr_result[1]
     lr_score_pval <- lr_result[2]
     head(lr_score_pval)
-}
-\value{
-The result for object \code{RDS}
 }

@@ -65,6 +65,9 @@ Refercence:http://software.broadinstitute.org/cancer/software/gsea/wiki/index.ph
 Use the slot in Seurat object for plot. May choose 'data', 'scale.data' or 'count'. See GetAssayData funciton in Seurat.
 }
 }
+\value{
+A data frame of RRA results.
+}
 \examples{
     ### BARCODE file contains cell identity information, generated from the cell identity collection step
     BARCODE <- system.file("extdata","barcode_rec.txt",package = "scMAGeCK")
@@ -82,6 +85,4 @@ Use the slot in Seurat object for plot. May choose 'data', 'scale.data' or 'coun
                                PATHWAY=FALSE, SAVEPATH=NULL)
     head(rra_result)
 }
-\value{
-The result for object \code{RDS}
-}
+

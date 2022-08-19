@@ -86,7 +86,8 @@ scmageck_lr <- function(BARCODE, RDS, NEGCTRL, SELECT_GENE = NULL, LABEL = NULL,
       sig_re$Fdr <- p.adjust(sig_re$p_value, method = "fdr")
       write.table(data.frame(sig_re), file = file.path(SAVEPATH, paste(data_label, "_signature.txt", sep = "")),
                   sep = "\t", quote = FALSE, row.names = FALSE)
-      return(list(data.frame(sig_re)))
+      return(list(sig_result=data.frame(sig_re),
+             regression_matrix=list(Xmat=Xmat,Ymat=sig_mat)))
     }
   } else {
     # remove values in Y mat
@@ -99,8 +100,9 @@ scmageck_lr <- function(BARCODE, RDS, NEGCTRL, SELECT_GENE = NULL, LABEL = NULL,
       write.table(data.frame(Perturbedgene = rownames(Amat), Amat_pval), file = file.path(SAVEPATH, paste(data_label,
          "_score_pval.txt", sep = "")), sep = "\t", quote = FALSE, row.names = FALSE)
     }
-    return(list(data.frame(Perturbedgene = rownames(Amat), Amat), data.frame(Perturbedgene = rownames(Amat),
-        Amat_pval)))
+    return(list(score=data.frame(Perturbedgene = rownames(Amat), Amat), 
+      pvalue=data.frame(Perturbedgene = rownames(Amat), Amat_pval),
+      regression_matrix=list(Xmat=Xmat,Ymat=Ymat)))
   }
 }
 TRUE
