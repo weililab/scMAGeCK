@@ -61,7 +61,14 @@ Use the slot in Seurat object for plot. May choose 'data', 'scale.data' or 'coun
 }
 }
 \value{
-Returns a list  of lr results, including beta score (as a data.frame), the associated p value (as a data.frame), and the regression matrix that is used for linear regression.
+If SIGNATURE is set as NULL (default): returns a list  of lr results, including: 
+		beta score (as a data.frame), 
+		the associated p value (as a data.frame), and 
+		the regression matrix that is used for linear regression.
+
+If SIGNATURE is set: returns a list of signature results, including:
+		signature result (as a data.frame), and
+		the regression matrix that is used for linear regression.
 }
 \examples{
     ### BARCODE file contains cell identity information, generated from the cell identity collection step
