@@ -3,7 +3,8 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
                                 scale_factor=3, 
                                 target_gene_min=200,target_gene_max=500,
                                 assay_for_cor='MAGIC_RNA',
-                                subset_rds=TRUE){
+                                subset_rds=TRUE,
+				scale_score=TRUE){
   
   if (is.character(rds_object)) {
     message(paste("Reading RDS file:", rds_object))
@@ -89,12 +90,21 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
   tr_x_update=scmageck_optim_core(tr_x,tr_y,tr_score,scale_factor=scale_factor )
   
   tr_x_update = tr_x_update / scale_factor
-  for(gl_pt in perturb_gene){
-    eff_estimate=tr_x_update[,perturb_gene]
-    
-    rds_used=AddMetaData(rds_used,eff_estimate,col.name=paste(perturb_gene,'eff',sep='_'))
-    
+  # scale
+  if(scale_score == TRUE){
+    for(gl_pt in perturb_gene){
+      max_score=max(tr_x_update[,gl_pt])
+      if(max_score < 0.01){
+         warnings(paste('The maximum score for a gene',gl_pt,'is too small (<0.01). No scaling is applied to the corresponding scores.'))
+	 max_score=1.0
+      }
+      tr_x_update[,gl_pt] = tr_x_update[,gl_pt] / max_score
+    }
   }
+  eff_estimate=tr_x_update[,perturb_gene]
+  
+  rds_used=AddMetaData(rds_used,eff_estimate,col.name=paste(perturb_gene,'eff',sep='_'))
+    
   
   optimization_matrix=list(tr_x=tr_x,tr_y=tr_y,beta_score=tr_score)
   return (list(eff_matrix=tr_x_update[,colnames(tr_x_update)!='NegCtrl'],
