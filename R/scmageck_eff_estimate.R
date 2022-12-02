@@ -93,12 +93,16 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
   # scale
   if(scale_score == TRUE){
     for(gl_pt in perturb_gene){
-      max_score=max(tr_x_update[,gl_pt])
-      if(max_score < 0.01){
-         warnings(paste('The maximum score for a gene',gl_pt,'is too small (<0.01). No scaling is applied to the corresponding scores.'))
-	 max_score=1.0
+      if(gl_pt %in% colnames(tr_x_update)){
+        max_score=max(tr_x_update[,gl_pt])
+        if(max_score < 0.01){
+           warnings(paste('The maximum score for a gene',gl_pt,'is too small (<0.01). No scaling is applied to the corresponding scores.'))
+           max_score=1.0
+        }
+        tr_x_update[,gl_pt] = tr_x_update[,gl_pt] / max_score
+      }else{
+           warnings(paste(gl_pt,'not in the list of scores to be scaled. Skip..'))
       }
-      tr_x_update[,gl_pt] = tr_x_update[,gl_pt] / max_score
     }
   }
   eff_estimate=tr_x_update[,perturb_gene]
