@@ -30,7 +30,14 @@ select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl,
       warnings(paste('Only ',length(cell_ctrl),'cells express sgRNAs targeting perturbed gene:',non_target_ctrl))
     }
   }
-  deframe=FindMarkers(rds_object,cells.1=cell_perturb,cells.2= cell_ctrl,
+  cells_perturb_meta=rep('Others',length(Cells(rds_object)))
+  names(cells_perturb_meta)=Cells(rds_object)
+  cells_perturb_meta[cell_perturb]='Perturbed'
+  cells_perturb_meta[cells_ctrl]='Ctrl'
+
+  rds_object=AddMetaData(rds_object,cells_perturb_meta,col.name='scmageck_perturbed_marker')
+  deframe=FindMarkers(rds_object,ident.1='Perturbed',indent.2='Ctrl',
+		      group.by='scmageck_perturbed_marker',
                       logfc.threshold = logfc.threshold)
   
   target_gene_list=rownames(deframe)
