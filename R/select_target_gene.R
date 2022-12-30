@@ -16,18 +16,18 @@ select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl,
   cell_perturb=cell_perturb[cell_perturb %in% Cells(rds_object)]
   cell_ctrl=cell_ctrl[cell_ctrl %in% Cells(rds_object)]
 
-  if(len(cell_perturb)<10){
-    if(len(cell_perturb)==0){
+  if(length(cell_perturb)<10){
+    if(length(cell_perturb)==0){
       stop(paste('No cells express sgRNAs targeting perturbed gene:',perturb_gene,'. Check whether (1) your cell names in barcode file match cell names in your Seurat object; and (2) there are cells that express sgRNAs targeting ',perturb_gene,'.'))
     }else{
-      warnings(paste('Only ',len(cell_perturb),'cells express sgRNAs targeting perturbed gene:',perturb_gene))
+      warnings(paste('Only ',length(cell_perturb),'cells express sgRNAs targeting perturbed gene:',perturb_gene))
     }
   }
-  if(len(cell_ctrl)<10){
-    if(len(cell_ctrl)==0){
+  if(length(cell_ctrl)<10){
+    if(length(cell_ctrl)==0){
       stop(paste('No cells express negative control sgRNAs:',non_target_ctrl,'. Check whether (1) your cell names in barcode file match cell names in your Seurat object; and (2) there are cells that express sgRNAs targeting ',non_target_ctrl,'.'))
     }else{
-      warnings(paste('Only ',len(cell_ctrl),'cells express sgRNAs targeting perturbed gene:',non_target_ctrl))
+      warnings(paste('Only ',length(cell_ctrl),'cells express sgRNAs targeting perturbed gene:',non_target_ctrl))
     }
   }
   deframe=FindMarkers(rds_object,cells.1=cell_perturb,cells.2= cell_ctrl,
