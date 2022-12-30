@@ -37,7 +37,7 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
       if(sum(names(rds_used)==assay_for_cor)==0){ # Assays(rds_used) doesn't work
         stop(paste('Cannot found desired assay', assay_for_cor, 'for estimating correlations.'))
       }
-      perturbed_target_gene_list=select_target_gene(rds_used, gl_pt, non_target_ctrl, 
+      perturbed_target_gene_list=select_target_gene(rds_used, bc_subset, gl_pt, non_target_ctrl, 
                                                     min_gene_num = target_gene_min, 
                                                     max_gene_num = target_gene_max,
                                                     assay_for_expcor = assay_for_cor) 

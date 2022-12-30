@@ -1,11 +1,16 @@
 get_exp_cor_frame<-function(rds_object,targetgene,ctrlgene,
-                            assay_for_expcor='MAGIC_RNA'){
+                            assay_for_expcor='MAGIC_RNA',
+			    cell1s=NULL,cell_ctrl=NULL){
   
 # get the expression correlation estimation from target gene KO vs negative controls
 
   # get cell names
-  cell1s=rownames(rds_object@meta.data)[which(rds_object@meta.data$gene==targetgene)]
-  cell_ctrl=rownames(rds_object@meta.data)[which(rds_object@meta.data$gene==ctrlgene)]
+  if(is.null(cell1s)){
+    cell1s=rownames(rds_object@meta.data)[which(rds_object@meta.data$gene==targetgene)]
+  }
+  if(is.null(cell_ctrl)){
+    cell_ctrl=rownames(rds_object@meta.data)[which(rds_object@meta.data$gene==ctrlgene)]
+  }
   
   # get expression data
   exp_all=GetAssayData(rds_object,assay = assay_for_expcor)
