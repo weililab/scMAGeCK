@@ -1,6 +1,6 @@
 select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl, 
                              assay_for_expcor='MAGIC_RNA', # assays used for estimating RNAs
-                             min_gene_num=200, max_gene_num=500, logfc.threshold=0.1, min_abs_diff=0.1){
+                             min_gene_num=200, max_gene_num=500, logfc.threshold=0.1, min_abs_diff=0.1,perturb_gene_exp_id=NULL){
   
   # old method: directly use the "gene" column in Seurat metadata 
   # note: not working for high moi screens
@@ -53,7 +53,8 @@ select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl,
       message('Not enough genes from differential expression. Select genes from correlation...')
       targetls<-get_exp_cor_frame(rds_object,perturb_gene,non_target_ctrl,
                                   assay_for_expcor = assay_for_expcor,
-      				  cell1s=cell_perturb,cell_ctrl=cell_ctrl)
+      				  cell1s=cell_perturb,cell_ctrl=cell_ctrl,
+      				  perturb_gene_exp_id=perturb_gene_exp_id)
       corfr<-targetls$cordata
       
       corfr_sel=subset(corfr, abs(cor_target)-abs(cor_ctrl)>min_abs_diff)

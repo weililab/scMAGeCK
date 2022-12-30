@@ -4,7 +4,8 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
                                 target_gene_min=200,target_gene_max=500,
                                 assay_for_cor='MAGIC_RNA',
                                 subset_rds=TRUE,
-				scale_score=TRUE){
+				scale_score=TRUE,
+				perturb_gene_exp_id_list=NULL){
   
   if (is.character(rds_object)) {
     message(paste("Reading RDS file:", rds_object))
@@ -32,15 +33,28 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
   if(is.null(perturb_target_gene)){
     # return the frame of target gene
     message(paste('Target gene list not provided. Search for target gene list..'))
-    for(gl_pt in perturb_gene){
+    if(!is.null(perturb_gene_exp_id_list)){
+      if(length(perturb_gene_exp_id_list)!=length(perturb_gene)){
+	  stop(paste('perturb_gene_exp_id_list parameter should have the same length as perturb_gene.'))
+      }
+    }
+    for(gl_pt_i in 1:length(perturb_gene)){
+      gl_pt=perturb_gene[gl_pt_i]
       message(paste('Search for', gl_pt, 'target genes..'))
       if(sum(names(rds_used)==assay_for_cor)==0){ # Assays(rds_used) doesn't work
         stop(paste('Cannot found desired assay', assay_for_cor, 'for estimating correlations.'))
       }
+
+      perturb_gene_exp_id=NULL
+      if(!is.null(perturb_gene_exp_id_list)){
+	perturb_gene_exp_id=perturb_gene_exp_id_list[gl_pt_i]
+      }
+      
       perturbed_target_gene_list=select_target_gene(rds_used, bc_subset, gl_pt, non_target_ctrl, 
                                                     min_gene_num = target_gene_min, 
                                                     max_gene_num = target_gene_max,
-                                                    assay_for_expcor = assay_for_cor) 
+                                                    assay_for_expcor = assay_for_cor,
+                                                    perturb_gene_exp_id=perturb_gene_exp_id) 
       perturb_target_gene=c(perturb_target_gene,perturbed_target_gene_list$target_gene_list)
       target_gene_results_list[[gl_pt]]=perturbed_target_gene_list
     }

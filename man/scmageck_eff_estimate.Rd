@@ -59,6 +59,12 @@ assay_for_cor = 'MAGIC_RNA', subset_rds = TRUE, scale_score=TRUE)
   Whether to scale the scores for each gene to 1.
   Default: TRUE
   }
+  \item{perturb_gene_exp_id_list}{
+  If the perturbed_gene id is different from expression feature id, 
+  use this parameter to provide the corresponding expression features. 
+  Must be the same length as perturb_gene.
+  Default: NULL
+  }
 }
 \value{
 Returns a list of several items:

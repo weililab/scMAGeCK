@@ -1,6 +1,6 @@
 get_exp_cor_frame<-function(rds_object,targetgene,ctrlgene,
                             assay_for_expcor='MAGIC_RNA',
-			    cell1s=NULL,cell_ctrl=NULL){
+			    cell1s=NULL,cell_ctrl=NULL,perturb_gene_exp_id=NULL){
   
 # get the expression correlation estimation from target gene KO vs negative controls
 
@@ -19,8 +19,12 @@ get_exp_cor_frame<-function(rds_object,targetgene,ctrlgene,
   exp_ctrl=t(as.matrix(exp_all[,cell_ctrl]))
   
   # estimate correlation
+  if(!is.null(perturb_gene_exp_id)){
+    message(paste('Using expression id ',perturb_gene_exp_id,'for the expression of ',targetgene))
+    targetgene=perturb_gene_exp_id
+  }
   if(!targetgene%in%colnames(exp_1s)){
-    stop(paste('Cannot find the expression of ',targetgene,'in expression assay.'))
+      stop(paste('Cannot find the expression of ',targetgene,'in expression assay.'))
   }
   cor_1s=cor(exp_1s,(exp_1s[,targetgene]))
   
