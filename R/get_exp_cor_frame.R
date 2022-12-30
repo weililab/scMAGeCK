@@ -19,7 +19,7 @@ get_exp_cor_frame<-function(rds_object,targetgene,ctrlgene,
   exp_ctrl=t(as.matrix(exp_all[,cell_ctrl]))
   
   # estimate correlation
-  if(!colnames(exp_1s)%in%targetgene){
+  if(!targetgene%in%colnames(exp_1s)){
     stop(paste('Cannot find the expression of ',targetgene,'in expression assay.'))
   }
   cor_1s=cor(exp_1s,(exp_1s[,targetgene]))
