@@ -27,6 +27,13 @@ Whether to perform normalization on sgRNA count matrix
 Whether to scale the normalized sgRNA count matrix 
 }
 }
+\value{
+Returns an updated Seurat object, with the following modifications:
+
+	- An added "sgrna_guide" assay that contains the normalized and scaled guide counts;
+	- An added "sgrna" assay that contains the normalized and scaled target gene counts. Counts from different sgRNAs targeting the same gene are merged;
+        - Several columns added to metadata to describe guide assignments (which can be overwritten by calling assign_cell_identity function later).
+}
 \examples{
     ### BARCODE file contains cell identity information, generated from the cell identity collection step
     BARCODE <- system.file("extdata","barcode_rec.txt",package = "scMAGeCK")
