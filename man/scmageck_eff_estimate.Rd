@@ -65,6 +65,11 @@ assay_for_cor = 'MAGIC_RNA', subset_rds = TRUE, scale_score=TRUE,perturb_gene_ex
   Must be the same length as perturb_gene.
   Default: NULL
   }
+  \item{lambda}{
+  Sparse penalty (similar with the lambda value in LASSO reguession). Must be non-negative. 
+  Default: 0
+  }
+
 }
 \value{
 Returns a list of several items:
