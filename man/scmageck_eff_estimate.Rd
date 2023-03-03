@@ -8,9 +8,21 @@
 echo "This function uses constrained linear least squares to identify heterogenous perturbation effects from single-cell CRISPR screens (e.g., Perturb-seq, CROP-seq)."
 }
 \usage{
-scmageck_eff_estimate(rds_object, bc_frame, perturb_gene, non_target_ctrl, 
-perturb_target_gene = NULL, scale_factor = 3, target_gene_min = 200, target_gene_max = 500,
-assay_for_cor = 'MAGIC_RNA', subset_rds = TRUE, scale_score=TRUE,perturb_gene_exp_id_list=NULL)
+scmageck_eff_estimate(
+  rds_object, 
+  bc_frame, 
+  perturb_gene, 
+  non_target_ctrl, 
+  perturb_target_gene = NULL, 
+  scale_factor = 3, 
+  target_gene_min = 200, 
+  target_gene_max = 500,
+  assay_for_cor = 'MAGIC_RNA', 
+  subset_rds = TRUE, 
+  scale_score = TRUE,
+  perturb_gene_exp_id_list = NULL,
+  lambda = 0
+)
  
 }
 %- maybe also 'usage' for other objects documented here.

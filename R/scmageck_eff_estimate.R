@@ -71,8 +71,8 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
   lr_score<-lr_res[[1]]
   lr_score_pval<-lr_res[[2]]
   
-  lr_xmat=lr_res$regression_matrix$Xmat
-  lr_ymat=lr_res$regression_matrix$Ymat
+  lr_xmat=lr_res$regression_matrix$Xmat # this is an indication matrix {single-cell (rows) * sgRNAs/genes (columns)}
+  lr_ymat=lr_res$regression_matrix$Ymat # this is a expression matrix {single-cell (rows) * target genes (columns)}
   
   lr_score_fix=lr_score[,-1]
   
