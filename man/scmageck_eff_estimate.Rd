@@ -21,7 +21,8 @@ scmageck_eff_estimate(
   subset_rds = TRUE, 
   scale_score = TRUE,
   perturb_gene_exp_id_list = NULL,
-  lambda = 0
+  lambda = 0,
+  background_correction=FALSE
 )
  
 }
@@ -80,6 +81,11 @@ scmageck_eff_estimate(
   \item{lambda}{
   Sparse penalty (similar with the lambda value in LASSO reguession). Must be non-negative. 
   Default: 0
+  }
+  \item{background_correction}{
+  Whether to extract background gene expression, which is estimated from negative control cells. 
+  Turn this option on will reduce false positives in datasets containing multiple cell types, where gene expressions may be largely different from different cell types.
+  Default: False
   }
 
 }

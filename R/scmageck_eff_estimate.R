@@ -6,7 +6,8 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
                                 subset_rds=TRUE,
 				scale_score=TRUE,
 				perturb_gene_exp_id_list=NULL,
-				lambda=0){
+				lambda=0,
+				background_correction=FALSE){
   
   if (is.character(rds_object)) {
     message(paste("Reading RDS file:", rds_object))
@@ -102,6 +103,12 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
   #tr_x_update=matrix(opres$par,ncol=ncol(tr_x))
   #rownames(tr_x_update)=rownames(tr_x)
   #colnames(tr_x_update)=colnames(tr_x)
+
+  if(background_correction){
+    tr_y=scmageck_correct_bg_exp(rds_used,tr_x,tr_y)
+    tr_score['NegCtrl',]=0 # set the beta score of neg control to zero, as the background exp has been corrected
+    
+  }
   tr_x_update=scmageck_optim_core(tr_x,tr_y,tr_score,scale_factor=scale_factor, lambda=lambda )
   
   tr_x_update = tr_x_update / scale_factor
