@@ -1,10 +1,9 @@
 scmageck_best_lambda <- function(
     rds_object,
     bc_frame,
-    non_target_ctrl,
-    lambda_seq,
-    pseudogene,
-    perturb_gene,
+    non_target_ctrl = "NT",
+    lambda_seq = 10^seq(-3, 3, length = 100),
+    pseudogene_label = "CD47",
     pseudogene_num = 250
 ) {
   if (is.character(rds_object)) {
@@ -12,23 +11,32 @@ scmageck_best_lambda <- function(
     rds_object = readRDS(rds_object)
   } 
   
+  #randomly select 250 cells expressing non-targeting controls and re-labeled them as a pseudogene
   rds_object_meta = rds_object@meta.data
   rand_df = rds_object_meta[sample(nrow(rds_object_meta), size=pseudogene_num), ]
-  rds_object_meta[rownames(rand_df), "gene"] <- pseudogene
-  rds_object_meta[rownames(rand_df), "sgrna"] <- pseudogene
-  rds_object <- AddMetaData(rds_object, metadata = rds_object_meta$gene, col.name = "gene")
-  rds_object <- AddMetaData(rds_object, metadata = rds_object_meta$sgrna, col.name = "sgrna")
   
+  if (is.factor(rds_object_meta$gene)) {
+    ##drop unused factor levels
+    rds_object_meta$gene <- droplevels(rds_object_meta$gene)
+    rds_object_meta$gene <- as.character(rds_object_meta$gene)
+    rds_object_meta[rownames(rand_df), "gene"] <- pseudogene_label
+    rds_object <- AddMetaData(rds_object, metadata = rds_object_meta$gene, col.name = "gene")
+  } else {
+    rds_object_meta[rownames(rand_df), "gene"] <- pseudogene_label
+    rds_object <- AddMetaData(rds_object, metadata = rds_object_meta$gene, col.name = "gene")
+  }
+    
   if (is.character(bc_frame)) {
     bc_frame = read.table(bc_frame, header = TRUE, as.is = TRUE)
   } 
   
   bc_frame2 <- bc_frame
   for (x in 1:length(bc_frame$cell)) {
-    bc_frame2$gene[x] = ifelse(bc_frame2$cell[x] %in% rownames(rand_df), pseudogene, bc_frame2$gene[x])
+    bc_frame2$gene[x] = ifelse(bc_frame2$cell[x] %in% rownames(rand_df), pseudogene_label, bc_frame2$gene[x])
   } 
   
   fp_combine = c()
+  perturb_gene = pseudogene_label #perturb_gene is the same as pseudogene.
   
   for (x in lambda_seq) {
     print(paste0("lambda = ", x))
@@ -49,7 +57,7 @@ scmageck_best_lambda <- function(
     fp_combine=c(fp_combine, fp)
   }
   
-  names(fp_combine) = lambda_seq
+  names(fp_combine) <- lambda_seq
   
   fp_combine_df <- as.data.frame(fp_combine)
   colnames(fp_combine_df)[1] <- "fp"
