@@ -3,7 +3,7 @@ scmageck_best_lambda <- function(
     bc_frame,
     non_target_ctrl = "NT",
     lambda_seq = 10^seq(-3, 3, length = 100),
-    pseudogene_label = "CD47",
+    pseudogene_label = "PSEUDO_GENE",
     pseudogene_num = 250
 ) {
   if (is.character(rds_object)) {
