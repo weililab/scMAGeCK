@@ -14,8 +14,8 @@ scmageck_best_lambda(
   rds_object,
   bc_frame,
   non_target_ctrl = "NT",
-  lambda_seq = 10^seq(-3, 3, length = 100),
-  pseudogene_label = "CD47"
+  lambda_seq = 10^seq(-3, 3, length = 10),
+  pseudogene_label = "PSEUDO_GENE"
   pseudogene_num = 250
 )
 }
@@ -31,10 +31,10 @@ scmageck_best_lambda(
   A character vector or string containing a comma-separated list of genes that serve as negative controls.
   }
   \item{lambda_seq}{
-  A sequence of lambda values to test. Defaults to 10^seq(-3, 3, length = 100).
+  A sequence of lambda values to test. Defaults to 10^seq(-3, 3, length = 10).
   }
   \item{pseudogene_label}{
-  A character string containing the name of any gene to be used as a pseudogene to evaluate the false positive rate. The pseudogene should be present in the dataset. The defalut value for pseudogene_label is CD47.
+  A character string to be used as a pseudogene to evaluate the false positive rate. The defalut value for pseudogene_label is PSEUDO_GENE.
   }
   \item{pseudogene_num}{
   An integer value indicating the number of cells that should be selected as pseudogenes for false positive rate evaluation. The default value for pseudogene_num is 250.
