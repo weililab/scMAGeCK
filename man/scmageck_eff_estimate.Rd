@@ -22,7 +22,8 @@ scmageck_eff_estimate(
   scale_score = TRUE,
   perturb_gene_exp_id_list = NULL,
   lambda = 0,
-  background_correction=FALSE
+  background_correction=FALSE,
+  use_perturb_exp=TRUE
 )
  
 }
@@ -86,6 +87,11 @@ scmageck_eff_estimate(
   Whether to extract background gene expression, which is estimated from negative control cells. 
   Turn this option on will reduce false positives in datasets containing multiple cell types, where gene expressions may be largely different from different cell types.
   Default: False
+  }
+  \item{use_perturb_exp}{
+  Whether to use the expression of perturbed gene in the estimation of efficiency score.
+  If False, the perturbed gene (or the corresponding id in perturb_gene_exp_id_list) will be removed from estimating the score.
+  Default: True
   }
 
 }

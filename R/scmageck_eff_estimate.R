@@ -7,7 +7,8 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
 				scale_score=TRUE,
 				perturb_gene_exp_id_list=NULL,
 				lambda=0,
-				background_correction=FALSE){
+				background_correction=FALSE,
+				use_perturb_exp=TRUE){
   
   if (is.character(rds_object)) {
     message(paste("Reading RDS file:", rds_object))
@@ -57,6 +58,15 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
                                                     max_gene_num = target_gene_max,
                                                     assay_for_expcor = assay_for_cor,
                                                     perturb_gene_exp_id=perturb_gene_exp_id) 
+      if(use_perturb_exp==FALSE){ # if we do not want to use the perturbed gene expression in calculation
+        tgls=perturbed_target_gene_list$target_gene_list
+        if(is.null(perturb_gene_exp_id)){
+          tgls=tgls[tgls!=gl_pt]
+        }else{
+          tgls=tgls[tgls!=perturb_gene_exp_id]
+        }
+        perturbed_target_gene_list$target_gene_list = tgls 
+      }
       perturb_target_gene=c(perturb_target_gene,perturbed_target_gene_list$target_gene_list)
       target_gene_results_list[[gl_pt]]=perturbed_target_gene_list
     }
