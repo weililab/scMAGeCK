@@ -23,7 +23,8 @@ scmageck_eff_estimate(
   perturb_gene_exp_id_list = NULL,
   lambda = 0,
   background_correction=FALSE,
-  use_perturb_exp=TRUE
+  use_perturb_exp=TRUE,
+  logfc.threshold=0.1
 )
  
 }
@@ -92,6 +93,10 @@ scmageck_eff_estimate(
   Whether to use the expression of perturbed gene in the estimation of efficiency score.
   If False, the perturbed gene (or the corresponding id in perturb_gene_exp_id_list) will be removed from estimating the score.
   Default: True
+  }
+  \item{logfc.threshold}{
+  logfc threshold when determining the downstream targets of a perturbed gene.
+  Default: 0.1 
   }
 
 }

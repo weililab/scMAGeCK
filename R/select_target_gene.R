@@ -1,6 +1,10 @@
 select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl, 
                              assay_for_expcor='MAGIC_RNA', # assays used for estimating RNAs
-                             min_gene_num=200, max_gene_num=500, logfc.threshold=0.1, min_abs_diff=0.1,perturb_gene_exp_id=NULL){
+                             min_gene_num=200, 
+                             max_gene_num=500, 
+                             logfc.threshold=0.1, 
+                             min_abs_diff=0.1,
+                             perturb_gene_exp_id=NULL){
   
   # old method: directly use the "gene" column in Seurat metadata 
   # note: not working for high moi screens
