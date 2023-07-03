@@ -50,7 +50,7 @@ select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl,
     target_gene_list=rownames(deframe)
     message(paste('DE analysis identified ',nrow(deframe),'DE genes that will be used for target genes.'))
     nround = nround + 1
-    if(nround > =3 | nrow(deframe) >= min_gene_num){
+    if(nround >=3 | nrow(deframe) >= min_gene_num){
       break
     }
     logfc.threshold = logfc.threshold * 0.8
