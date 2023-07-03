@@ -1,6 +1,6 @@
 select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl, 
                              assay_for_expcor='MAGIC_RNA', # assays used for estimating RNAs
-                             min_gene_num=200, 
+                             min_gene_num=10, 
                              max_gene_num=500, 
                              logfc.threshold=0.1, 
                              min_abs_diff=0.1,
@@ -40,13 +40,23 @@ select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl,
   cells_perturb_meta[cell_ctrl]='Ctrl'
 
   rds_object=AddMetaData(rds_object,cells_perturb_meta,col.name='scmageck_perturbed_marker')
-  deframe=FindMarkers(rds_object,ident.1='Perturbed',indent.2='Ctrl',
+  # automatically adjust the number of min genes
+  nround=0
+  while(TRUE){
+    deframe=FindMarkers(rds_object,ident.1='Perturbed',indent.2='Ctrl',
 		      group.by='scmageck_perturbed_marker',
                       logfc.threshold = logfc.threshold)
   
-  target_gene_list=rownames(deframe)
+    target_gene_list=rownames(deframe)
+    message(paste('DE analysis identified ',nrow(deframe),'DE genes that will be used for target genes.'))
+    nround = nround + 1
+    if(nround > =3 | nrow(deframe) >= min_gene_num){
+      break
+    }
+    logfc.threshold = logfc.threshold * 0.8
+    message(paste('Automatically adjusting the logfc.threshold to ',logfc.threshold,' to search for more target genes.'))
+  }
   corfr_sel=NULL
-  message(paste('DE analysis identified ',nrow(deframe),'DE genes that will be used for target genes.'))
   if(nrow(deframe)>max_gene_num){
     deframe=deframe[order(deframe$p_val),]
     target_gene_list=rownames(deframe)[1:max_gene_num]

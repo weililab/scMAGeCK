@@ -1,7 +1,7 @@
 scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_ctrl, 
                                 perturb_target_gene = NULL,
                                 scale_factor=3, 
-                                target_gene_min=200,
+                                target_gene_min=10,
                                 target_gene_max=500,
                                 assay_for_cor='RNA',
                                 subset_rds=TRUE,
