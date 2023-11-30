@@ -2,10 +2,10 @@
 \alias{scmageck_eff_estimate}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-	Detect heterogenous perturbation responses from Perturb-seq like data
+	Detect heterogenous perturbation responses from Perturb-seq using perturbation-response score (PS) 
 }
 \description{
-echo "This function uses constrained linear least squares to identify heterogenous perturbation effects from single-cell CRISPR screens (e.g., Perturb-seq, CROP-seq)."
+"This function uses constrained linear least squares to calculate perturbation-rsponse score (PS), which measures heterogenous perturbation effects from single-cell CRISPR screens (e.g., Perturb-seq, CROP-seq)."
 }
 \usage{
 scmageck_eff_estimate(
@@ -68,6 +68,8 @@ scmageck_eff_estimate(
   \item{subset_rds}{
   Whether to return an R object that only contains cells that express guides 
   targeting perturbed genes (or negative control genes).
+  If TRUE, a gene column in metadata will be added (or updated) that assigns perturbed genes
+  to single cells.
   Default: TRUE
   }
   \item{scale_score}{
@@ -102,7 +104,7 @@ scmageck_eff_estimate(
 }
 \value{
 Returns a list of several items:
-  eff_matrix: the sigma score matrix containing the scores of each cells for each perturbed gene
+  eff_matrix: the PS score matrix containing the PS scores of each cells for each perturbed gene
   rds:   the R object if subset_rds is set as TRUE
   optimization_matrix: the matrix used for actually performing the constrained optimizaiton
   target_gene_search_result: the results of target gene search for each perturbed gene
@@ -111,6 +113,7 @@ Returns a list of several items:
 
     library(Seurat)
     # set the BARCODE and RDS file path 
+    # if you have a guide matrix, use guidematrix_to_triplet() function in scMAGeCK to convert guide matrix to BARCODE file
     BARCODE = system.file("extdata","barcode_rec.txt",package = "scMAGeCK")
     bc_frame=read.table(BARCODE,header = T,as.is = T)
     
@@ -124,7 +127,7 @@ Returns a list of several items:
     
     # Run scmageck_eff_estimate function
     # By default, the result will be saved to the current working directory. 
-    rds_object<-assign_cell_identity(bc_frame,rds_object)
+    ## rds_object<-assign_cell_identity(bc_frame,rds_object)
     
     eff_object <- scmageck_eff_estimate(rds_object, bc_frame, perturb_gene='TP53', 
                                         non_target_ctrl = 'NonTargetingControlGuideForHuman',assay_for_cor='RNA')

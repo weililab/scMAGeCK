@@ -48,13 +48,13 @@ scmageck_lr <- function(BARCODE, RDS, NEGCTRL, SELECT_GENE = NULL, LABEL = NULL,
     targetobj = RDS
   }
   # check if names are consistent 
-  nmatch = sum(bc_dox[, 1] %in% colnames(x = targetobj))
+  nmatch = sum(bc_dox[, 'cell'] %in% colnames(x = targetobj))
   if (nmatch == 0) {
     message("Cell names in expression matrix and barcode file do not match. Try to remove possible trailing \"-1\"s...")
-    if (length(grep("-\\d$", bc_dox[, 1])) > 0) {
-      bc_dox[, 1] = sub("-\\d$", "", bc_dox[, 1])
+    if (length(grep("-\\d$", bc_dox[, 'cell'])) > 0) {
+      bc_dox[, 1] = sub("-\\d$", "", bc_dox[, 'cell'])
     }
-    nmatch = sum(bc_dox[, 1] %in% colnames(x = targetobj))
+    nmatch = sum(bc_dox[, 'cell'] %in% colnames(x = targetobj))
     if (nmatch == 0) {
       stop("No cell names match in expression matrix and barcode file.")
     }

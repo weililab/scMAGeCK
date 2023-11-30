@@ -31,6 +31,7 @@ scmageck_eff_estimate<-function(rds_object, bc_frame, perturb_gene, non_target_c
   
   rds_used=rds_object
   if(subset_rds){
+    rds_object<-assign_cell_identity(bc_subset,rds_object, ASSIGNMETHOD='largest')
     rds_used=subset(rds_object,subset = gene %in% c(perturb_gene,non_target_ctrl))
     #rds_used$gene=as.character(rds_used$gene) # convert to character
   }
