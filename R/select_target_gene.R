@@ -62,7 +62,7 @@ select_target_gene<-function(rds_object, bc_frame,perturb_gene, non_target_ctrl,
     target_gene_list=rownames(deframe)[1:max_gene_num]
     message(paste('Select',max_gene_num,'genes'))
   }else{
-    if(nrow(deframe)<min_gene_num & !is.null(perturb_gene_exp_id)){
+    if(nrow(deframe)<min_gene_num & !is.null(perturb_gene_exp_id) & FALSE){ # this has been disabled
       # select genes from expression correlation
       message('Not enough genes from differential expression. Select genes from correlation...')
       targetls<-get_exp_cor_frame(rds_object,perturb_gene,non_target_ctrl,

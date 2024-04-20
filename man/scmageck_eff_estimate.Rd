@@ -15,7 +15,7 @@ scmageck_eff_estimate(
   non_target_ctrl, 
   perturb_target_gene = NULL, 
   scale_factor = 3, 
-  target_gene_min = 200, 
+  target_gene_min = 10, 
   target_gene_max = 500,
   assay_for_cor = 'MAGIC_RNA', 
   subset_rds = TRUE, 
@@ -56,7 +56,7 @@ scmageck_eff_estimate(
   of the signa scores.
   }
   \item{target_gene_min}{
-  The minimum number of genes selected for target genes. 
+  The minimum number of genes selected for target genes. If DEG analysis does not provide enough number of genes that reach this number, the algorithm will iteratively (at most 3 times) decrease LFC threshold to select more genes.  
   }
   \item{target_gene_max}{
   The maximum number of genes selected for target genes. 
